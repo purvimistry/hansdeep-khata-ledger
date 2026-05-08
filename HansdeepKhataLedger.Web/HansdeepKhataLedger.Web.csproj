@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HansdeepKhataLedger.Application\HansdeepKhataLedger.Application.csproj" />
+    <ProjectReference Include="..\HansdeepKhataLedger.Domain\HansdeepKhataLedger.Domain.csproj" />
+    <ProjectReference Include="..\HansdeepKhataLedger.Infrastructure\HansdeepKhataLedger.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
