@@ -1,0 +1,44 @@
+﻿@model HansdeepKhataLedger.Web.Models.LoginViewModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Login";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Hansdeep Khata Ledger</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/login.css" asp-append-version="true"/>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <h2>
+                Hansdeep Khata Ledger
+            </h2>
+            <form asp-action="Login" method="post">
+                <div class="form-group">
+                    <label>
+                        Username
+                    </label>
+                    <input asp-for="Username" class="form-control" />
+                    <span asp-validation-for="Username" class="validation-error"></span>
+                </div>
+                <div class="form-group mt-3">
+                    <label>
+                        Password
+                    </label>
+                    <input asp-for="Password" type="password" class="form-control" />
+                    <span asp-validation-for="Password" class="validation-error"></span>
+                </div>
+                <button type="submit" class="login-btn mt-4">
+                    Login
+                </button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
+
