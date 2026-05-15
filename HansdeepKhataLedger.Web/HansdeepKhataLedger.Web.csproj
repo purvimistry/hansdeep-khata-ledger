@@ -12,4 +12,9 @@
     <ProjectReference Include="..\HansdeepKhataLedger.Infrastructure\HansdeepKhataLedger.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\background\" />
+    <Folder Include="wwwroot\images\logos\" />
+  </ItemGroup>
+
 </Project>

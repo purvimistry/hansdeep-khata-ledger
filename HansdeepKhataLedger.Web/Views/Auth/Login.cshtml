@@ -9,36 +9,112 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Hansdeep Khata Ledger</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/login.css" asp-append-version="true"/>
 </head>
 <body>
     <div class="login-container">
+        <div class="brand-side">
+            <div class="brand-content">
+                <div class="brand-logo">
+                    <svg viewBox="0 0 100 80" width="76" height="60" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+                        <!-- Left Page Outline -->
+                        <path d="M50 70C35 70 15 62 5 65V15C15 12 35 20 50 20" />
+                        <!-- Right Page Outline -->
+                        <path d="M50 70C65 70 85 62 95 65V15C85 12 65 20 50 20" />
+                        <!-- Center Spine Divider Line -->
+                        <line x1="50" y1="20" x2="50" y2="70" />
+                        <!-- Indian Rupee Symbol (₹) on Left Page -->
+                        <path d="M18 28H32 M18 36H32 M24 28C28 28 30 32 24 38 L32 46" stroke-width="4" />
+                        <!-- Ledger Lines on Right Page -->
+                        <line x1="62" y1="30" x2="82" y2="30" stroke-width="4" />
+                        <line x1="62" y1="38" x2="82" y2="38" stroke-width="4" />
+                        <line x1="62" y1="46" x2="82" y2="46" stroke-width="4" />
+                        <!-- Floating Pen Graphic Component -->
+                        <path d="M88 10 L94 16 L76 34 L70 28 Z" fill="currentColor" stroke="none" />
+                        <path d="M70 28 L66 38 L76 34" fill="currentColor" stroke="none" />
+                    </svg>
+                </div>
+
+                <h1 class="main-title">HANSDEEP</h1>
+                <p class="subtitle-tag">KHATA LEDGER</p>
+                <div class="yellow-line-brand"></div>
+                <p class="brand-description">
+                    Manage customers, credit, payments and ledger in one simple and powerful system.
+                </p>
+            </div>
+        </div>
         <div class="login-card">
-            <h2>
-                Hansdeep Khata Ledger
-            </h2>
+            <div class="user-avatar">
+                <img src="~/images/logos/user-avatar.png" alt="User avatar"/>
+            </div>
+            <h2>Welcome Back</h2>
+            <p class="subtitle">Sign in to continue to your account</p>
+            <div class="yellow-line"></div>
             <form asp-action="Login" method="post">
                 <div class="form-group">
-                    <label>
+                    <label asp-for="Username">
                         Username
                     </label>
-                    <input asp-for="Username" class="form-control" />
-                    <span asp-validation-for="Username" class="validation-error"></span>
+                    <div class="input-container">
+                        <span class="field-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                        </span>
+                        <input type="text" asp-for="Username" class="form-control" placeholder="Enter your username">
+                    </div>
+                    <span asp-validation-for="Username" asp-validation-summary="ModelOnly" class="validation-error"></span>
                 </div>
                 <div class="form-group mt-3">
-                    <label>
+                    <label asp-for="Password">
                         Password
                     </label>
-                    <input asp-for="Password" type="password" class="form-control" />
-                    <span asp-validation-for="Password" class="validation-error"></span>
+                    <div class="input-container">
+                        <span class="field-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                            </svg>
+                        </span>
+                        <input asp-for="Password" type="password"  class="form-control" placeholder="Enter your password">
+                        <span class="password-toggle">
+                            <svg class="eye-open d-none" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                            <svg class="eye-closed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                                <line x1="1" y1="1" x2="23" y2="23"></line>
+                            </svg>
+                        </span>
+                    </div>
+                    <span asp-validation-for="Password" asp-validation-summary="ModelOnly" class="validation-error"></span>
                 </div>
-                <button type="submit" class="login-btn mt-4">
+                <div class="form-actions">
+                    <label class="remember-checkbox">
+                        <input type="checkbox">
+                        <span class="checkbox-text">Remember me</span>
+                    </label>
+                    <a href="javascript:void(0)" class="forgot-link">Forgot password?</a>
+                </div>
+                <button type="submit" class="btn-submit">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
                     Login
                 </button>
             </form>
+            <div class="footer-badges">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+                Secure | Reliable | Simple
+            </div>
         </div>
     </div>
 </body>
 </html>
+<script src="~/js/login.js" asp-append-version="true"></script>
 
