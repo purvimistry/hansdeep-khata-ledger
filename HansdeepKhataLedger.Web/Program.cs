@@ -1,10 +1,20 @@
+using HansdeepKhataLedger.Infrastructure;
+using HansdeepKhataLedger.Infrastructure.Persistence;
+using HansdeepKhataLedger.Infrastructure.Persistence.Seed;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddInfrastructure(builder.Configuration);
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
-
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    await AdminSeeder.SeedAsync(context);
+}
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
