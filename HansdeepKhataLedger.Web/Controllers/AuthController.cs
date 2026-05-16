@@ -12,6 +12,7 @@ namespace HansdeepKhataLedger.Web.Controllers
             return View();
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Login(LoginViewModel model)
         {
             if(!ModelState.IsValid)

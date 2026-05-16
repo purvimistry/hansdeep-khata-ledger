@@ -198,6 +198,7 @@ body {
     font-size: 13px;
     margin-top: 6px;
     display: block;
+    min-height: 15px;
 }
 .footer-badges {
     margin-top: 35px;
