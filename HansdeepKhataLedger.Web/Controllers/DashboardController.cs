@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace HansdeepKhataLedger.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class DashboardController : Controller
     {
         public IActionResult Index()

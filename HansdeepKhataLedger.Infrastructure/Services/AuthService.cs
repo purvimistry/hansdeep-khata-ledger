@@ -1,4 +1,5 @@
 ﻿using HansdeepKhataLedger.Application.Interfaces;
+using HansdeepKhataLedger.Domain.Entities;
 using HansdeepKhataLedger.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -16,14 +17,20 @@ namespace HansdeepKhataLedger.Infrastructure.Services
         {
             _dbContext = dbContext; 
         }
-        public async Task<bool> ValidateAdmin(string username, string password)
+        public async Task<User?> AuthenticateUser(string username, string password)
         {
-            var admin = await _dbContext.Admins.FirstOrDefaultAsync(a => a.Username == username && a.IsActive);
-            if (admin == null) { 
-                return false;
+            var user = await _dbContext.Users
+                    .Include(u => u.Role)
+                    .FirstOrDefaultAsync(u => u.Username == username && u.IsActive);
+            if (user == null) { 
+                return null;
             }
 
-            return BCrypt.Net.BCrypt.Verify(password, admin.PasswordHash);
+            var isValid =  BCrypt.Net.BCrypt.Verify(password, user.PasswordHash);
+            if (!isValid)
+                return null;
+
+            return user;
         }
     }
 }

@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace HansdeepKhataLedger.Infrastructure.Persistence.Configurations
 {
-    public class AdminConfiguration : IEntityTypeConfiguration<Admin>
+    public class UserConfiguration : IEntityTypeConfiguration<User>
     {
-        public void Configure(EntityTypeBuilder<Admin> builder)
+        public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.ToTable("Admin");
+            builder.ToTable("Users");
             builder.HasKey(a => a.Id);
             builder.Property(a=>a.Id)
                 .UseIdentityColumn();
@@ -30,6 +30,9 @@ namespace HansdeepKhataLedger.Infrastructure.Persistence.Configurations
                 .IsRequired(false)
                 .HasMaxLength(200);
 
+            builder.Property(a => a.RoleId)
+                .IsRequired();
+
             builder.Property(a => a.IsActive)
                 .HasDefaultValue(true);
 
@@ -38,6 +41,9 @@ namespace HansdeepKhataLedger.Infrastructure.Persistence.Configurations
 
             builder.HasIndex(a => a.Username)
                  .IsUnique();
+            builder.HasIndex(a => a.Email)
+                 .IsUnique()
+                 .HasFilter("[Email] IS NOT NULL");
 
         }
     }

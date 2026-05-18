@@ -28,8 +28,8 @@ namespace HansdeepKhataLedger.Web.Controllers
             {
                 return View(model);
             }
-            var isValid = await _authService.ValidateAdmin(model.Username, model.Password);
-            if(!isValid)
+            var user = await _authService.AuthenticateUser(model.Username, model.Password);
+            if(user == null)
             {
                 ModelState.AddModelError(string.Empty, "Invalid username or password");
                 return View(model); 
@@ -37,8 +37,8 @@ namespace HansdeepKhataLedger.Web.Controllers
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, model.Username),
-                new Claim(ClaimTypes.Role,"Admin")
+                new Claim(ClaimTypes.Name, user.Username),
+                new Claim(ClaimTypes.Role,user.Role.Name)
             };
             var identity = new ClaimsIdentity(claims,CookieAuthenticationDefaults.AuthenticationScheme);
             var principal = new ClaimsPrincipal(identity);

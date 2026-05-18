@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HansdeepKhataLedger.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace HansdeepKhataLedger.Application.Interfaces
 {
     public interface IAuthService
     {
-        Task<bool> ValidateAdmin(string username, string password);
+        Task<User?> AuthenticateUser(string username, string password);
     }
 }
