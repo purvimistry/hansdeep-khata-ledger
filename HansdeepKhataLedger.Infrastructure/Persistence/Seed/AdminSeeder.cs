@@ -12,7 +12,7 @@ namespace HansdeepKhataLedger.Infrastructure.Persistence.Seed
     {
         public static async Task SeedAsync(AppDbContext dbContext)
         {
-            if (await dbContext.admins.AnyAsync())
+            if (await dbContext.Admins.AnyAsync())
                 return;
 
             // read from environment variables
@@ -32,9 +32,9 @@ namespace HansdeepKhataLedger.Infrastructure.Persistence.Seed
                 Email = email ?? "admin@local.com",
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(password),
                 IsActive = true,
-                CreatedOn = DateTime.Now
+                CreatedOn = DateTime.UtcNow,
             };
-            dbContext.admins.Add(admin);
+            dbContext.Admins.Add(admin);
             await dbContext.SaveChangesAsync();
         }
     }

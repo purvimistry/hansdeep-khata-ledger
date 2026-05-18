@@ -34,7 +34,7 @@ namespace HansdeepKhataLedger.Infrastructure.Persistence.Configurations
                 .HasDefaultValue(true);
 
             builder.Property(a => a.CreatedOn)
-                 .HasDefaultValueSql("GETDATE()");
+                 .HasDefaultValueSql("GETUTCDATE()");
 
             builder.HasIndex(a => a.Username)
                  .IsUnique();

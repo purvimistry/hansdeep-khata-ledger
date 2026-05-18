@@ -1,4 +1,6 @@
-﻿using HansdeepKhataLedger.Infrastructure.Persistence;
+﻿using HansdeepKhataLedger.Application.Interfaces;
+using HansdeepKhataLedger.Infrastructure.Persistence;
+using HansdeepKhataLedger.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,6 +24,7 @@ namespace HansdeepKhataLedger.Infrastructure
                 b => b.MigrationsAssembly(
                         typeof(AppDbContext).Assembly.GetName().Name)
                     ));
+            services.AddScoped<IAuthService, AuthService>();
             return services;
         }
     }

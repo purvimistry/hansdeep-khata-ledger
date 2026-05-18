@@ -14,7 +14,7 @@ namespace HansdeepKhataLedger.Infrastructure.Persistence
         {
         }
 
-       public DbSet<Admin> admins { get; set; }
+       public DbSet<Admin> Admins { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
