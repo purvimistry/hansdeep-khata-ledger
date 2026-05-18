@@ -1,0 +1,38 @@
+﻿<div class="topbar">
+    <button class="menu-toggle-btn" id="menuToggle">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+    </button>
+
+    <div class="search-container">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" class="search-input" placeholder="Search customer, faliya or phone...">
+    </div>
+
+   
+    <div class="meta-actions-group">
+
+        <div class="live-datetime">
+            <div id="liveTime" class="time-display">@DateTime.Now.ToString("hh:mm tt")</div>
+            <div id="liveDate" class="date-display">@DateTime.Now.ToString("ddd, MMM dd, yyyy")</div>
+        </div>
+
+        <div class="user-profile-widget">
+            <div class="avatar-wrapper">
+                <div class="user-avatar-circle">A</div>
+                <span class="online-status-dot"></span>
+            </div>
+            <div class="profile-info">
+                <div class="profile-name">Admin User</div>
+                <div class="profile-role">Super Administrator</div>
+            </div>
+        </div>
+
+    </div>
+</div>

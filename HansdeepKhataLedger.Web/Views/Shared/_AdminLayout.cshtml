@@ -1,1 +1,47 @@
-﻿
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Hansdeep Khata Ledger</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/HansdeepKhataLedger.Web.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="app-container">
+
+        @await Html.PartialAsync("_Sidebar")
+
+        <div class="main-content">
+
+            <!-- HEADER NAVIGATION SECTION -->
+            <header>
+                @await Html.PartialAsync("_TopNavbar")
+            </header>
+
+            <!-- CENTRAL WORKSPACE LAYER -->
+            <div class="content-area">
+                <main role="main" class="pb-3">
+                    @RenderBody()
+                </main>
+            </div>
+
+            <!-- FOOTER CONTAINER -->
+            <footer class="border-top footer text-muted mt-auto py-3 bg-white px-4">
+                <div class="container-fluid d-flex justify-content-between align-items-center">
+                    <span>&copy; 2026 - HansdeepKhataLedger.Web</span>
+                </div>
+            </footer>
+
+        </div>
+    </div>
+   
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
