@@ -11,6 +11,14 @@
     --sidebar-width: 230px;
     --topbar-height: 70px;
     --transition-speed: 0.25s;
+    --success: #10B981;
+    --success-bg: rgba(16, 185, 129, 0.08);
+    --warning: #D97706;
+    --warning-bg: rgba(217, 119, 6, 0.08);
+    --danger: #EF4444; 
+    --danger-bg: rgba(239, 68, 68, 0.08);
+    --brand-light: #4A5D8A;
+    --brand-light-bg: rgba(11, 31, 82, 0.06);
 }
 
 * {

@@ -1,1 +1,110 @@
-﻿<h2>Admin Dashboard</h2>
+﻿@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+}
+<div class="dashboard-wrapper">
+    <!-- DASHBOARD HEADER -->
+    <div class="dashboard-header">
+        <div>
+            <h2 class="dashboard-title">Welcome back, Admin!</h2>
+            <p class="dashboard-subtitle">
+                Here's what's happening with your business today.
+            </p>
+        </div>
+        <div class="dashboard-actions">
+            <a href="#" class="primary-action-btn">
+                + Add Customer
+            </a>
+            <a href="#" class="secondary-action-btn">
+                + Credit Entry
+            </a>
+        </div>
+    </div>
+    <!-- KPI CARDS -->
+    <div class="stats-grid">
+
+        <div class="stat-card">
+            <div class="stat-icon customers-icon">👥</div>
+
+            <div class="stat-details">
+                <span class="stat-label">Total Customers</span>
+                <h3 class="stat-value">1,248</h3>
+                <span class="stat-meta positive-text">
+                    +12 customers this month
+                </span>
+            </div>
+        </div>
+
+        <div class="stat-card highlight-card">
+            <div class="stat-icon pending-icon">₹</div>
+
+            <div class="stat-details">
+                <span class="stat-label">Total Pending Amount</span>
+                <h3 class="stat-value">₹ 2,48,530</h3>
+                <span class="stat-meta warning-text">
+                    Outstanding customer balance
+                </span>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon credit-icon">💳</div>
+
+            <div class="stat-details">
+                <span class="stat-label">Today's Credit</span>
+                <h3 class="stat-value">₹ 4,520</h3>
+                <span class="stat-meta neutral-text">
+                    18 credit entries added today
+                </span>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon collection-icon">💰</div>
+
+            <div class="stat-details">
+                <span class="stat-label">Today's Collection</span>
+                <h3 class="stat-value">₹ 3,700</h3>
+                <span class="stat-meta positive-text">
+                    Payments received today
+                </span>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="dashboard-content-grid">
+        <!-- RECENT LEDGER ENTRIES -->
+        <div class="dashboard-panel">
+            <div class="panel-header">
+                <div>
+                    <h3>Recent Ledger Entries</h3>
+                    <p>Latest customer borrow records</p>
+                </div>
+                <a href="#" class="view-all-link">View All</a>
+            </div>
+            <div class="table-responsive">
+                @await Html.PartialAsync("_RecentLedgerEntries")
+            </div>
+           
+        </div>
+        <!-- RECENT PAYMENTS -->
+        <div class="dashboard-panel">
+            <div class="panel-header">
+                <div>
+                    <h3>Recent Payments</h3>
+                    <p>Latest received collections</p>
+                </div>
+                <a href="#" class="view-all-link">View All</a>
+            </div>
+            <div class="table-responsive">
+                @await Html.PartialAsync("_RecentPayments")
+            </div>
+            
+        </div>
+
+    </div>
+</div>
