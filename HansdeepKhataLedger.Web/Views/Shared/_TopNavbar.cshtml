@@ -1,4 +1,16 @@
-﻿<div class="topbar">
+﻿@using System.Security.Claims
+
+@{
+    
+    var username = User.Identity?.Name;
+    var role = User.FindFirst(ClaimTypes.Role)?.Value;
+
+    username = string.IsNullOrWhiteSpace(username) ? "Admin" : username;
+    role = string.IsNullOrWhiteSpace(role) ? "Admin" : role;
+
+    var initial = string.Join("", username.Split(' ').Where(x => x.Length > 0).Select(x => char.ToUpper(x[0])));
+}
+<div class="topbar">
     <button class="menu-toggle-btn" id="menuToggle">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -25,12 +37,12 @@
 
         <div class="user-profile-widget">
             <div class="avatar-wrapper">
-                <div class="user-avatar-circle">A</div>
+                <div class="user-avatar-circle">@initial</div>
                 <span class="online-status-dot"></span>
             </div>
             <div class="profile-info">
-                <div class="profile-name">Admin User</div>
-                <div class="profile-role">Super Administrator</div>
+                <div class="profile-name">@username</div>
+                <div class="profile-role">@role</div>
             </div>
         </div>
 

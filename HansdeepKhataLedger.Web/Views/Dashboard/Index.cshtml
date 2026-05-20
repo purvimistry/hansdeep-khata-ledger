@@ -1,6 +1,9 @@
-﻿@{
+﻿@using System.Security.Claims
+@{
     ViewData["Title"] = "Dashboard";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var username = User.Identity?.Name;
+    username = string.IsNullOrWhiteSpace(username) ? "Admin" : username;  
 }
 @section Styles {
     <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
@@ -9,7 +12,7 @@
     <!-- DASHBOARD HEADER -->
     <div class="dashboard-header">
         <div>
-            <h2 class="dashboard-title">Welcome back, Admin!</h2>
+            <h2 class="dashboard-title">Welcome back, @username!</h2>
             <p class="dashboard-subtitle">
                 Here's what's happening with your business today.
             </p>
