@@ -18,7 +18,10 @@ namespace HansdeepKhataLedger.Web.Controllers
         [HttpGet]
         public IActionResult Login()
         {
-            return View();
+            return View(new LoginViewModel
+            {
+                RememberMe = true
+            });
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -42,7 +45,13 @@ namespace HansdeepKhataLedger.Web.Controllers
             };
             var identity = new ClaimsIdentity(claims,CookieAuthenticationDefaults.AuthenticationScheme);
             var principal = new ClaimsPrincipal(identity);
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
+            var authProperties = new AuthenticationProperties
+            {
+                IsPersistent = model.RememberMe,
+                ExpiresUtc = model.RememberMe ? DateTimeOffset.UtcNow.AddDays(7) : DateTimeOffset.UtcNow.AddHours(2)
+            };
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal,authProperties);
 
             return RedirectToAction("Index", "Dashboard");
         }
