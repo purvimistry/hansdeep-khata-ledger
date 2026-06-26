@@ -1,5 +1,7 @@
-﻿using HansdeepKhataLedger.Application.Interfaces;
+﻿using HansdeepKhataLedger.Application.Interfaces.Repositories;
+using HansdeepKhataLedger.Application.Interfaces.Services;
 using HansdeepKhataLedger.Infrastructure.Persistence;
+using HansdeepKhataLedger.Infrastructure.Repositories;
 using HansdeepKhataLedger.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -25,6 +27,11 @@ namespace HansdeepKhataLedger.Infrastructure
                         typeof(AppDbContext).Assembly.GetName().Name)
                     ));
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<IVillageRepository, VillageRepository>();
+            services.AddScoped<IAreaRepository, AreaRepository>();
+
+            services.AddScoped<ICustomerService, CustomerService>();
             return services;
         }
     }

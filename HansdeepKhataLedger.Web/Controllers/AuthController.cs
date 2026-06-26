@@ -1,9 +1,9 @@
-﻿using HansdeepKhataLedger.Application.Interfaces;
-using HansdeepKhataLedger.Web.Models;
+﻿using HansdeepKhataLedger.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
+using HansdeepKhataLedger.Application.Interfaces.Services;
 
 namespace HansdeepKhataLedger.Web.Controllers
 {
@@ -40,6 +40,7 @@ namespace HansdeepKhataLedger.Web.Controllers
 
             var claims = new List<Claim>
             {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.Username),
                 new Claim(ClaimTypes.Role,user.Role.Name)
             };

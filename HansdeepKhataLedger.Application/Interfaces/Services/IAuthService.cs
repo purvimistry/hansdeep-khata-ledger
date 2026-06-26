@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HansdeepKhataLedger.Application.Interfaces
+namespace HansdeepKhataLedger.Application.Interfaces.Services
 {
     public interface IAuthService
     {

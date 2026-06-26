@@ -1,4 +1,4 @@
-﻿using HansdeepKhataLedger.Application.Interfaces;
+﻿using HansdeepKhataLedger.Application.Interfaces.Services;
 using HansdeepKhataLedger.Domain.Entities;
 using HansdeepKhataLedger.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
