@@ -1,4 +1,7 @@
-﻿<div class="sidebar">
+﻿@{
+    var currentController = ViewContext.RouteData.Values["Controller"]?.ToString();
+}
+<div class="sidebar">
     <div class="logo-section">
         <button class="sidebar-close-btn" id="sidebarClose" aria-label="Close menu">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -32,7 +35,7 @@
     </div>
 
     <nav class="navigation-menu">
-        <a href="~/Dashboard/Index" class="nav-item active">
+        <a href="~/Dashboard/Index" class="nav-item @(currentController == "Dashboard" ? "active" : "")">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="3" y="3" width="7" height="9"></rect>
                 <rect x="14" y="3" width="7" height="5"></rect>
@@ -42,7 +45,7 @@
             <span class="nav-text">Dashboard</span>
         </a>
 
-        <a href="#" class="nav-item">
+        <a href="~/Customer/Index" class="nav-item @(currentController == "Customer" ? "active" : "")">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
                 <circle cx="9" cy="7" r="4"></circle>

@@ -1,0 +1,37 @@
+﻿@model HansdeepKhataLedger.Web.Models.Customer.CustomerIndexViewModel
+
+<div class="filter-card">
+    <form asp-action="Index" method="get">
+        <div class="filter-grid">
+            <div class="filter-group">
+                <label>Search</label>
+                <input asp-for="SearchTerm"
+                       class="form-control"
+                       placeholder="Customer name or mobile" />
+            </div>
+            <div class="filter-group">
+                <label>Village</label>
+                <select asp-for="VillageId"
+                        class="form-select">
+                    <option value="">All Villages</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Area</label>
+                <select asp-for="AreaId"
+                        class="form-select">
+                    <option value="">All Areas</option>
+                </select>
+            </div>
+            <div class="filter-buttons">
+                <button class="primary-btn" type="submit">
+                    Search
+                </button>
+                <a asp-action="Index"
+                   class="secondary-btn">
+                    Reset
+                </a>
+            </div>
+        </div>
+    </form>
+</div>

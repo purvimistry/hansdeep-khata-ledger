@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace HansdeepKhataLedger.Web.Models
+namespace HansdeepKhataLedger.Web.Models.Auth
 {
     public class LoginViewModel
     {

@@ -1,0 +1,16 @@
+﻿@model HansdeepKhataLedger.Web.Models.Customer.CustomerIndexViewModel
+
+@if (Model.TotalPages > 1)
+{
+    <div class="pagination-wrapper">
+        <button class="page-btn">
+            Previous
+        </button>
+        <span>
+            Page @Model.CurrentPage of @Model.TotalPages
+        </span>
+        <button class="page-btn">
+            Next
+        </button>
+    </div>
+}

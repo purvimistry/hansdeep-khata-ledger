@@ -1,9 +1,9 @@
-﻿using HansdeepKhataLedger.Web.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
 using HansdeepKhataLedger.Application.Interfaces.Services;
+using HansdeepKhataLedger.Web.Models.Auth;
 
 namespace HansdeepKhataLedger.Web.Controllers
 {

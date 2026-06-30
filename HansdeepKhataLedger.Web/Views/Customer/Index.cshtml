@@ -1,0 +1,25 @@
+﻿@model HansdeepKhataLedger.Web.Models.Customer.CustomerIndexViewModel
+@{
+    ViewData["Title"] = "Customers";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/customer.css" asp-append-version="true" />
+}
+<div class="customer-page">
+    <!--HEADER-->
+    <div class="page-header">
+        <div>
+            <h2 class="page-title">Customers</h2>
+            <p class="page-subtitle">
+                Manage customer accounts, balances and contact information.
+            </p>
+        </div>
+        <a asp-action="Create" class="primary-btn">
+            + Add Customer
+        </a>
+    </div>
+    @await Html.PartialAsync("_CustomerFilters", Model)
+    @await Html.PartialAsync("_CustomerTable", Model)
+    @await Html.PartialAsync("_CustomerPagination", Model)
+</div>
