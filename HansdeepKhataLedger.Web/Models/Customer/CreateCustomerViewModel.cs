@@ -29,6 +29,6 @@ namespace HansdeepKhataLedger.Web.Models.Customer
 
         [Range(0, 999999999.99,
            ErrorMessage = "Advance balance cannot be negative.")]
-        public decimal AdvanceBalance { get; set; } = 0;
+        public decimal? AdvanceBalance { get; set; }
     }
 }

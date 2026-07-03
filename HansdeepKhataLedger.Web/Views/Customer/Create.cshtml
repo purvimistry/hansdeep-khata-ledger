@@ -6,9 +6,8 @@
 }
 
 @section Styles {
-    <link rel="stylesheet"
-          href="~/css/customer-form.css"
-          asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/customer-form.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/tom-select/css/tom-select.css" />
 }
 
 <div class="customer-form-page">
@@ -62,29 +61,41 @@
 
                 <div class="form-group">
                     <label asp-for="AdvanceBalance"> Advance Balance</label>
-                    <input asp-for="AdvanceBalance" class="form-control" placeholder="0.00" />
+                    <input asp-for="AdvanceBalance" type="number" class="form-control" placeholder="0.00" min="0"
+                           step="0.01" onkeydown="return ['e','E','+','-'].indexOf(event.key) === -1;" />
                 </div>
 
                 <div class="form-group">
                     <label asp-for="VillageId"> Village <span>*</span></label>
-                    <select asp-for="VillageId"  asp-items="ViewBag.Villages" class="form-select">
-                        <option value="">Select Village</option>
-                    </select>
-                    <span asp-validation-for="VillageId"class="text-danger"></span>
+                    <div class="select-with-button">
+                        <select asp-for="VillageId" asp-items="ViewBag.Villages" id="VillageId" class="form-select">
+                        </select>
+                        <button type="button"
+                                id="btnAddVillage"
+                                class="add-btn">
+                            + Add
+                        </button>
+                    </div>
+                    <span asp-validation-for="VillageId" class="text-danger"></span>
+                   
+                    <div id="villageServerError" class="field-server-error"></div>
                 </div>
 
                 <div class="form-group">
                     <label asp-for="AreaId"> Area</label>
                     <div class="select-with-button">
-                        <select asp-for="AreaId" asp-items="ViewBag.Areas" class="form-select">
-                            <option value="">Select Area </option>
+                        <select asp-for="AreaId" asp-items="ViewBag.Areas" id="AreaId" class="form-select" disabled>
+                            
                         </select>
-                        <button type="button" class="add-btn" title="Add Area">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                            </svg>
+                        <button type="button"
+                                id="btnAddArea"
+                                class="add-btn">
+                            + Add
                         </button>
                     </div>
+                    <span id="areaHint" class="field-hint" style="display:none;">
+                        Please select a village before adding an area.
+                    </span>
                 </div>
 
                 <div class="form-group full-width">
@@ -100,11 +111,55 @@
         </div>
     </form>
 </div>
+<!--MODAL-->
 
+<div class="entity-modal-overlay" id="entityModal">
+    <div class="entity-modal">
+        <!-- HEADER -->
+        <div class="entity-modal-header">
+            <div class="entity-modal-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                </svg>
+            </div>
+            <div>
+                <h3 id="entityModalTitle"> Add Item </h3>
+                <p id="entityModalSubtitle"> Create a new record. </p>
+            </div>
+        </div>
+        <!-- BODY -->
+        <div class="entity-modal-body">
+            <!-- Village Info (Only for Area) -->
+            <div class="entity-info-card" id="entityVillageContainer" style="display:none;">
+                <label> Selected Village </label>
+                <div class="entity-selected-value">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z" fill="none" stroke="currentColor" stroke-width="2" />
+                        <circle cx="12" cy="10" r="2.5" fill="none" stroke="currentColor" stroke-width="2" />
+                    </svg>
+                    <span id="selectedVillageName"> </span>
+                </div>
+            </div>
+            <!-- Name -->
+            <div class="form-group">
+                <label id="entityModalLabel">Name</label>
+                <input id="entityModalInput" class="form-control"  maxlength="100" autocomplete="off" />
+            </div>
+            <!-- Error -->
+            <div class="entity-error" id="entityModalError"> </div>
+        </div>
+        <!-- FOOTER -->
+        <div class="entity-modal-footer">
+            <button type="button" class="secondary-btn" id="entityCancelBtn"> Cancel </button>
+            <button type="button" class="primary-btn" id="entitySaveBtn">Save</button>
+        </div>
+    </div>
+</div>
 @section Scripts {
 
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-
+    <script src="~/lib/tom-select/js/tom-select.complete.min.js"></script>
+    <script src="~/js/customer-create.js" asp-append-version="true"></script>
 }

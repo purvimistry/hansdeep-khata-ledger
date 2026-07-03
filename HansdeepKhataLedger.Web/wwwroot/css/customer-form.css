@@ -142,38 +142,6 @@
     padding: 14px 15px;
 }
 
-.select-with-button {
-    display: flex;
-    gap: 10px;
-}
-
-    .select-with-button .form-select {
-        flex: 1;
-    }
-
-.add-btn {
-    width: 48px;
-    border: none;
-    border-radius: 12px;
-    background: var(--primary);
-    color: white;
-    cursor: pointer;
-    transition: .25s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-    .add-btn svg {
-        width: 18px;
-        height: 18px;
-    }
-
-    .add-btn:hover {
-        background: var(--secondary);
-        transform: translateY(-2px);
-    }
-
 .text-danger {
     color: var(--danger);
     font-size: 12px;
@@ -236,6 +204,342 @@
         color: var(--primary);
     }
 
+/* ==========================================
+   TOM SELECT
+==========================================*/
+
+.ts-wrapper.form-select .ts-control input,
+.ts-wrapper.form-select .ts-dropdown,
+.ts-wrapper.form-select .ts-dropdown .option,
+.ts-wrapper.form-select .ts-dropdown .create,
+.ts-wrapper.form-select .ts-dropdown .no-results {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    color: var(--text-main);
+}
+.ts-wrapper {
+    font-size: 14px;
+    padding:0px;
+}
+
+.ts-wrapper.form-select .ts-control {
+    min-height: 48px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: #FCFCFD;
+    padding: 10px 14px;
+    transition: .25s;
+    box-shadow: none;
+}
+
+    .ts-control:hover {
+        border-color: var(--accent);
+    }
+
+.ts-wrapper.focus .ts-control {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px rgba(245,166,35,.10);
+}
+
+.ts-dropdown {
+    border: none;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 12px 35px rgba(0,0,0,.08);
+    margin-top: 8px;
+}
+
+    .ts-dropdown .option {
+        padding: 12px 15px;
+        font-size: 14px;
+        color: var(--text-main);
+        line-height: 1.5;
+    }
+
+    .ts-dropdown .active {
+        background: var(--brand-light-bg);
+        color: var(--primary);
+    }
+
+    .ts-dropdown .create {
+        color: var(--primary);
+        font-weight: 600;
+    }
+
+.ts-control input {
+    font-size: 14px;
+    color: var(--text-main);
+}
+
+.ts-control > .item {
+    color: var(--text-main);
+    font-weight: 400;
+    font-size: 14px;
+    font-family:inherit;
+    line-height: 24px;
+}
+/*MODAL*/
+
+.entity-modal-overlay {
+    position: fixed;
+    inset: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background: rgba(6, 21, 58, 0.45);
+    backdrop-filter: blur(5px);
+    padding: 20px;
+    z-index: 9999;
+}
+
+    .entity-modal-overlay.show {
+        display: flex;
+        animation: fadeOverlay .25s ease;
+    }
+
+.entity-modal {
+    width: 100%;
+    max-width: 500px;
+    background: var(--card);
+    border-radius: 22px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    box-shadow: 0 25px 70px rgba(6,21,58,.18);
+    animation: modalOpen .28s ease;
+}
+
+.entity-modal-header {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 28px 30px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(11,31,82,.03), transparent);
+}
+
+.entity-modal-icon {
+    width: 58px;
+    height: 58px;
+    border-radius: 16px;
+    background: var(--brand-light-bg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+    .entity-modal-icon svg {
+        width: 26px;
+        height: 26px;
+        color: var(--primary);
+    }
+
+.entity-modal-header h3 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 6px;
+}
+
+.entity-modal-header p {
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1.6;
+}
+.entity-modal-body {
+    padding: 28px 30px;
+}
+.entity-info-card {
+    margin-bottom: 24px;
+    padding: 16px 18px;
+    border-radius: 16px;
+    background: var(--brand-light-bg);
+    border: 1px solid rgba(11,31,82,.08);
+}
+
+    .entity-info-card label {
+        display: block;
+        margin-bottom: 10px;
+        color: var(--text-muted);
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: .6px;
+    }
+
+.entity-selected-value {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    color: var(--primary);
+    font-size: 15px;
+}
+
+    .entity-selected-value svg {
+        width: 20px;
+        height: 20px;
+        color: var(--accent);
+        flex-shrink: 0;
+    }
+
+.entity-modal-body .form-group {
+    margin-bottom: 0;
+}
+
+.entity-modal-body label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.entity-modal-body .form-control {
+    height: 50px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    transition: .25s;
+}
+
+    .entity-modal-body .form-control:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 4px rgba(245,166,35,.12);
+    }
+
+
+.entity-error {
+    display: none;
+    margin-top: 14px;
+    padding: 14px 16px;
+    border-left: 4px solid var(--danger);
+    background: var(--danger-bg);
+    color: var(--danger);
+    border-radius: 10px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+.entity-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 14px;
+    padding: 22px 30px;
+    background: #FAFBFD;
+    border-top: 1px solid var(--border);
+}
+.primary-btn.loading {
+    pointer-events: none;
+    opacity: .85;
+}
+
+    .primary-btn.loading::after {
+        content: "";
+        width: 16px;
+        height: 16px;
+        margin-left: 10px;
+        border: 2px solid rgba(255,255,255,.35);
+        border-top-color: white;
+        border-radius: 50%;
+        display: inline-block;
+        animation: spin .8s linear infinite;
+    }
+.dropdown-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+    .dropdown-group .ts-wrapper {
+        flex: 1;
+    }
+
+.select-with-button {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+    .select-with-button .ts-wrapper {
+        flex: 1;
+    }
+
+.add-btn {
+    width: 95px;
+    height: 48px;
+    border: none;
+    border-radius: 12px;
+    background: var(--primary);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .25s;
+    flex-shrink: 0;
+}
+
+    .add-btn:hover {
+        background: var(--secondary);
+        transform: translateY(-2px);
+    }
+
+    .add-btn:active {
+        transform: scale(.97);
+    }
+@keyframes modalOpen {
+
+    from {
+        opacity: 0;
+        transform: translateY(15px) scale(.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes fadeOverlay {
+
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes spin {
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (max-width:600px) {
+
+    .entity-modal {
+        max-width: 100%;
+    }
+
+    .entity-modal-header {
+        padding: 22px;
+    }
+
+    .entity-modal-body {
+        padding: 22px;
+    }
+
+    .entity-modal-footer {
+        padding: 20px 22px;
+        flex-direction: column-reverse;
+    }
+
+        .entity-modal-footer .primary-btn,
+        .entity-modal-footer .secondary-btn {
+            width: 100%;
+        }
+}
 @media(max-width:768px) {
 
     .form-grid {

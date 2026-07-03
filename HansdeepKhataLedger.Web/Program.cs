@@ -17,7 +17,8 @@ builder.Services.AddAuthentication(
         options.ExpireTimeSpan = TimeSpan.FromDays(7);
         options.SlidingExpiration = true;
         options.Cookie.HttpOnly = true;
-        options.Cookie.IsEssential = true;  
+        options.Cookie.IsEssential = true;
+        options.Cookie.Name = "HansdeepKhataLedger.Auth";
     });
 
 builder.Services.AddControllersWithViews();

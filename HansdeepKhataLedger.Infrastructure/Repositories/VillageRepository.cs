@@ -36,5 +36,9 @@ namespace HansdeepKhataLedger.Infrastructure.Repositories
                 .FirstOrDefaultAsync(x => x.Id == id); 
 
         }
+        public async Task<Village?> GetByNameAsync(string name)
+        {
+            return await _dbContext.Villages.FirstOrDefaultAsync(x => x.Name.ToLower() == name.ToLower());
+        }
     }
 }

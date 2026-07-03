@@ -12,5 +12,6 @@ namespace HansdeepKhataLedger.Application.Interfaces.Repositories
         Task<List<Village>> GetAllAsync();
         Task<Village?> GetByIdAsync(int id);
         Task AddAsync(Village village);
+        Task<Village?> GetByNameAsync(string name);
     }
 }

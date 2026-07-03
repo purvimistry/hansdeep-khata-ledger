@@ -18,6 +18,12 @@ namespace HansdeepKhataLedger.Web.Controllers
         [HttpGet]
         public IActionResult Login()
         {
+            if (User.Identity?.IsAuthenticated == true)
+            {
+                return RedirectToAction("Index", "Dashboard");
+            }
+
+
             return View(new LoginViewModel
             {
                 RememberMe = true

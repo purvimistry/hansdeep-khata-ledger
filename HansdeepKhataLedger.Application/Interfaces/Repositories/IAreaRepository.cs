@@ -13,5 +13,6 @@ namespace HansdeepKhataLedger.Application.Interfaces.Repositories
         Task<List<Area>> GetByVillageIdAsync(int villageId);
         Task<Area?> GetByIdAsync(int id);
         Task AddAsync(Area area);
+        Task<Area?> GetByNameAsync(string name, int villageId);
     }
 }
