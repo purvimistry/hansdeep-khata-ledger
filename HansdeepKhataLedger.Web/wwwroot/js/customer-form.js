@@ -6,8 +6,13 @@ let entityModalOptions = {};
 document.addEventListener("DOMContentLoaded", function () {
     initializeVillageDropdown();
     initializeAreaDropdown();
+    initializeAreaState();
+    const selectedVillageId = villageSelect.getValue();
 
-    areaSelect.disable();
+    if (selectedVillageId) {
+        loadAreas(selectedVillageId);
+    }
+
     villageSelect.on("change", function (value) {
         areaSelect.clear();
         areaSelect.clearOptions();
@@ -52,7 +57,6 @@ document.addEventListener("DOMContentLoaded", function () {
             });
     });
 
-    document.getElementById("btnAddArea").disabled = true;
     document.getElementById("entitySaveBtn").addEventListener("click", saveEntity);
     document.getElementById("entityCancelBtn").addEventListener("click", closeEntityModal);
 
@@ -82,7 +86,9 @@ function initializeVillageDropdown() {
         create: false,
         placeholder: "Search Village..."
     });
-    villageSelect.clear(true);
+    if (!document.getElementById("VillageId").value) {
+        villageSelect.clear(true);
+    }
 }
 function initializeAreaDropdown() {
     areaSelect = new TomSelect("#AreaId", {
@@ -92,7 +98,19 @@ function initializeAreaDropdown() {
         placeholder: "Search Area..."
     });
 }
+function initializeAreaState() {
 
+    const villageId = villageSelect.getValue();
+
+    if (!villageId) {
+        areaSelect.disable();
+        return;
+    }
+
+    areaSelect.enable();
+    document.getElementById("btnAddArea").disabled = false;
+    loadAreas(villageId);
+}
 function openEntityModal(options) {
 
     entityModalOptions = options;
@@ -233,7 +251,7 @@ async function saveEntity() {
 async function loadAreas(villageId) {
 
     try {
-
+        const selectedAreaId = document.getElementById("AreaId").value;
         const response = await fetch(`/Customer/GetAreas?villageId=${villageId}`);
         if (!response.ok)
             return;
@@ -249,6 +267,9 @@ async function loadAreas(villageId) {
         });
 
         areaSelect.enable();
+        if (selectedAreaId) {
+            areaSelect.setValue(selectedAreaId, true);
+        }
         areaSelect.refreshOptions(false);
         areaSelect.refreshItems();
     }

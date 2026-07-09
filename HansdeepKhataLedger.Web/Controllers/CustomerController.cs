@@ -47,13 +47,13 @@ namespace HansdeepKhataLedger.Web.Controllers
         public async Task<IActionResult> Create()
         {
             await LoadDropdownsAsync();
-            return View(new CreateCustomerViewModel());
+            return View(new CustomerFormViewModel());
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CreateCustomerViewModel model)
+        public async Task<IActionResult> Create(CustomerFormViewModel model)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 await LoadDropdownsAsync(model.VillageId);
                 return View(model);
@@ -82,15 +82,53 @@ namespace HansdeepKhataLedger.Web.Controllers
             return View();
         }
         [HttpGet]
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            return View();  
+            var customer = await _customerService.GetCustomerByIdAsync(id);
+            if (customer == null)
+                return NotFound();
+
+
+            await LoadDropdownsAsync(customer.VillageId, customer.AreaId);
+            var model = new CustomerFormViewModel
+            {
+                Id = customer.Id,
+                FullName = customer.FullName,
+                MobileNumber = customer.MobileNumber,
+                AlternateMobileNumber = customer.AlternateMobileNumber,
+                VillageId = customer.VillageId,
+                AreaId = customer.AreaId,
+                Notes = customer.Notes,
+                AdvanceBalance = customer.AdvanceBalance
+            };
+
+            return View(model);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(EditCustomerViewModel model)
+        public async Task<IActionResult> Edit(CustomerFormViewModel model)
         {
-            return View(model);
+            if(!ModelState.IsValid)
+            {
+                await LoadDropdownsAsync(model.VillageId, model.AreaId);
+                return View(model);
+            }
+
+            var customer = new Customer
+            {
+                Id = model.Id,
+                FullName = model.FullName,
+                MobileNumber = model.MobileNumber.Trim(),
+                AlternateMobileNumber = model.AlternateMobileNumber?.Trim(),
+                VillageId = model.VillageId,
+                AreaId = model.AreaId,
+                Notes = model.Notes,
+                AdvanceBalance = model.AdvanceBalance ?? 0,
+                IsActive = true
+            };
+            await _customerService.UpdateCustomerAsync(customer, CurrentUserId);
+            TempData["Success"] = "Customer updated successfully";
+            return RedirectToAction(nameof(Index));
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -102,7 +140,7 @@ namespace HansdeepKhataLedger.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAreas(int villageId)
         {
-            var areas =await _customerService.GetAreasByVillageAsync(villageId);
+            var areas = await _customerService.GetAreasByVillageAsync(villageId);
             return Json(areas.Select(a => new
             {
                 id = a.Id,
@@ -133,7 +171,7 @@ namespace HansdeepKhataLedger.Web.Controllers
                     text = village.Name
                 });
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(new
                 {
@@ -174,7 +212,7 @@ namespace HansdeepKhataLedger.Web.Controllers
                 });
             }
         }
-        private async Task LoadDropdownsAsync(int? villageId = null)
+        private async Task LoadDropdownsAsync(int? villageId = null, int? areaId = null)
         {
             ViewBag.Villages = new SelectList(
                 await _customerService.GetVillagesAsync(),
@@ -182,18 +220,17 @@ namespace HansdeepKhataLedger.Web.Controllers
                 "Name",
                 villageId);
 
-            if (villageId.HasValue)
-            {
-                ViewBag.Areas = new SelectList(
-                    await _customerService.GetAreasByVillageAsync(villageId.Value),
-                    "Id",
-                    "Name");
-            }
-            else
-            {
-                ViewBag.Areas = new SelectList(
-                    Enumerable.Empty<SelectListItem>());
-            }
+
+            var Areas = villageId.HasValue
+                ? await _customerService.GetAreasByVillageAsync(villageId.Value)
+                : new List<Area>();
+
+            ViewBag.Areas = new SelectList(
+                Areas,
+                "Id",
+                "Name",
+                areaId);
+
         }
     }
 }

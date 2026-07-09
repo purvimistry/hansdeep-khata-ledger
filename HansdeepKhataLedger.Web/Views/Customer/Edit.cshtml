@@ -1,7 +1,7 @@
 ﻿@model HansdeepKhataLedger.Web.Models.Customer.CustomerFormViewModel
 
 @{
-    ViewData["Title"] = "Add Customer";
+    ViewData["Title"] = "Edit Customer";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -11,6 +11,7 @@
 }
 
 <div class="customer-form-page">
+
     <div class="page-header">
         <a asp-action="Index" class="back-link">
             <svg viewBox="0 0 24 24">
@@ -18,13 +19,16 @@
             </svg>
             Back to Customers
         </a>
-        <h1>Add Customer</h1>
-        <p>Create a customer profile to start recording ledger transactions.</p>
+        <h1>Edit Customer</h1>
+        <p>Update customer information.</p>
     </div>
 
-    <form asp-action="Create" method="post">
+    <form asp-action="Edit" method="post">
+
         @Html.AntiForgeryToken()
+        <input asp-for="Id" type="hidden" />
         @await Html.PartialAsync("_CustomerForm", Model)
+
     </form>
 </div>
 <!--MODAL-->
@@ -35,6 +39,8 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
     <script src="~/lib/tom-select/js/tom-select.complete.min.js"></script>
     <script src="~/js/customer-form.js" asp-append-version="true"></script>
+
 }

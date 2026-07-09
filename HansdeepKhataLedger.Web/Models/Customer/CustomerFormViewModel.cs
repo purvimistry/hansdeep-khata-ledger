@@ -2,8 +2,10 @@
 
 namespace HansdeepKhataLedger.Web.Models.Customer
 {
-    public class CreateCustomerViewModel
+    public class CustomerFormViewModel
     {
+        public int Id { get; set; }
+
         [Required(ErrorMessage = "Customer name is required.")]
         [StringLength(100, ErrorMessage = "Customer name cannot exceed 100 characters.")]
         public string FullName {  get; set; } = string.Empty;

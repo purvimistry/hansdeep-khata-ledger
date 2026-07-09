@@ -1,0 +1,42 @@
+﻿<div class="entity-modal-overlay" id="entityModal">
+    <div class="entity-modal">
+        <!-- HEADER -->
+        <div class="entity-modal-header">
+            <div class="entity-modal-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                </svg>
+            </div>
+            <div>
+                <h3 id="entityModalTitle"> Add Item </h3>
+                <p id="entityModalSubtitle"> Create a new record. </p>
+            </div>
+        </div>
+        <!-- BODY -->
+        <div class="entity-modal-body">
+            <!-- Village Info (Only for Area) -->
+            <div class="entity-info-card" id="entityVillageContainer" style="display:none;">
+                <label> Selected Village </label>
+                <div class="entity-selected-value">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z" fill="none" stroke="currentColor" stroke-width="2" />
+                        <circle cx="12" cy="10" r="2.5" fill="none" stroke="currentColor" stroke-width="2" />
+                    </svg>
+                    <span id="selectedVillageName"> </span>
+                </div>
+            </div>
+            <!-- Name -->
+            <div class="form-group">
+                <label id="entityModalLabel">Name</label>
+                <input id="entityModalInput" class="form-control" maxlength="100" autocomplete="off" />
+            </div>
+            <!-- Error -->
+            <div class="entity-error" id="entityModalError"> </div>
+        </div>
+        <!-- FOOTER -->
+        <div class="entity-modal-footer">
+            <button type="button" class="secondary-btn" id="entityCancelBtn"> Cancel </button>
+            <button type="button" class="primary-btn" id="entitySaveBtn">Save</button>
+        </div>
+    </div>
+</div>
