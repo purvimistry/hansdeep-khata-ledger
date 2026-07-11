@@ -1,4 +1,5 @@
-﻿using HansdeepKhataLedger.Domain.Entities;
+﻿using HansdeepKhataLedger.Application.Common;
+using HansdeepKhataLedger.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,11 @@ namespace HansdeepKhataLedger.Application.Interfaces.Repositories
 {
     public interface ICustomerRepository
     {
-        Task<List<Customer>> GetAllAsync();
+        Task<PagedResult<Customer>> GetAllAsync(string? searchTerm, int? villageId, int? areaId, int page, int pageSize);
         Task<Customer?> GetByIdAsync(int id);
         Task AddAsync(Customer customer);
         void Update(Customer customer);
         Task<bool> ExistsAsync(int id);
+        Task<bool> MobileNumberExistsAsync(string mobileNumber, int? excludeCustomerId = null);
     }
 }

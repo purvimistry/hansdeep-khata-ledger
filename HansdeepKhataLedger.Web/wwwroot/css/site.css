@@ -39,7 +39,9 @@ body {
     min-height: 100vh;
     width: 100vw;
 }
-
+.d-none{
+    display: none;
+}
 /*
  SIDE NAVIGATION DRAWER                              */
 

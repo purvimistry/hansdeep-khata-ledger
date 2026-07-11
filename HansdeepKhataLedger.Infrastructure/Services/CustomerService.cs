@@ -1,4 +1,5 @@
-﻿using HansdeepKhataLedger.Application.Interfaces.Repositories;
+﻿using HansdeepKhataLedger.Application.Common;
+using HansdeepKhataLedger.Application.Interfaces.Repositories;
 using HansdeepKhataLedger.Application.Interfaces.Services;
 using HansdeepKhataLedger.Domain.Entities;
 using HansdeepKhataLedger.Infrastructure.Persistence;
@@ -33,9 +34,9 @@ namespace HansdeepKhataLedger.Infrastructure.Services
             await _dbContext.SaveChangesAsync();    
         }
 
-        public async Task<List<Customer>> GetAllCustomersAsync()
+        public async Task<PagedResult<Customer>> GetAllCustomersAsync(string? searchTerm, int? villageId, int? areaId, int page, int pageSize)
         {
-            return await _customerRepository.GetAllAsync();
+            return await _customerRepository.GetAllAsync(searchTerm,villageId,areaId,page,pageSize);
         }
 
         public async Task<Customer?> GetCustomerByIdAsync(int id)
@@ -117,7 +118,10 @@ namespace HansdeepKhataLedger.Infrastructure.Services
         {
             return await _areaRepository.GetByVillageIdAsync(villageId);
         }
-       
+        public async Task<bool> MobileNumberExistsAsync(string mobileNumber, int? excludeCustomerId = null)
+        {
+            return await _customerRepository.MobileNumberExistsAsync(mobileNumber, excludeCustomerId);
+        }
 
     }
 }

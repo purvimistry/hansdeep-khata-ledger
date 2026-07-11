@@ -50,13 +50,13 @@
                         </td>
                         <td>
                             <div class="action-links">
-                                <a asp-action="Details"
-                                   asp-route-id="@customer.Id">
-                                    View
-                                </a>
                                 <a asp-action="Edit"
                                    asp-route-id="@customer.Id">
                                     Edit
+                                </a>
+                                <a  asp-action="Index"
+                                   asp-route-id="@customer.Id">
+                                    Open Ledger
                                 </a>
                             </div>
                         </td>

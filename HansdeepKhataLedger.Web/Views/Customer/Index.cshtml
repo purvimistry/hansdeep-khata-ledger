@@ -23,3 +23,72 @@
     @await Html.PartialAsync("_CustomerTable", Model)
     @await Html.PartialAsync("_CustomerPagination", Model)
 </div>
+@section Scripts{
+    <script>
+        const hint = document.getElementById("areaSearchHint");
+
+        document.addEventListener("DOMContentLoaded", async function () {
+
+            const villageSelect = document.getElementById("VillageId");
+            const areaSelect = document.getElementById("AreaId");
+            const hint = document.getElementById("areaSearchHint");
+
+            // Initial state
+            if (villageSelect.value) {
+                areaSelect.disabled = false;
+
+                const selectedAreaId = areaSelect.value;
+
+                areaSelect.innerHTML = '<option value="">All Areas</option>';
+
+                const response = await fetch(`/Customer/GetAreas?villageId=${villageSelect.value}`);
+
+                if (response.ok) {
+                    const areas = await response.json();
+
+                    areas.forEach(area => {
+                        areaSelect.innerHTML +=
+                            `<option value="${area.id}" ${area.id == selectedAreaId ? "selected" : ""}>
+                                ${area.text}
+                            </option>`;
+                    });
+                }
+            }
+            else {
+                areaSelect.disabled = true;
+            }
+
+            areaSelect.addEventListener("focus", function () {
+                if (!villageSelect.value) {
+                    hint.classList.remove("d-none");
+                }
+            });
+
+            villageSelect.addEventListener("change", async function () {
+
+                hint.classList.add("d-none");
+
+                if (!this.value) {
+                    areaSelect.disabled = true;
+                    areaSelect.innerHTML = '<option value="">All Areas</option>';
+                    return;
+                }
+
+                areaSelect.disabled = false;
+                areaSelect.innerHTML = '<option value="">All Areas</option>';
+
+                const response = await fetch(`/Customer/GetAreas?villageId=${this.value}`);
+
+                if (!response.ok)
+                    return;
+
+                const areas = await response.json();
+
+                areas.forEach(area => {
+                    areaSelect.innerHTML +=
+                        `<option value="${area.id}">${area.text}</option>`;
+                });
+            });
+        });
+    </script>
+}

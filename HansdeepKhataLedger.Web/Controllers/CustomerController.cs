@@ -1,4 +1,5 @@
-﻿using HansdeepKhataLedger.Application.Interfaces.Repositories;
+﻿using HansdeepKhataLedger.Application.Common;
+using HansdeepKhataLedger.Application.Interfaces.Repositories;
 using HansdeepKhataLedger.Application.Interfaces.Services;
 using HansdeepKhataLedger.Domain.Entities;
 using HansdeepKhataLedger.Web.Models.Customer;
@@ -19,12 +20,15 @@ namespace HansdeepKhataLedger.Web.Controllers
             _customerService = customerService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? searchTerm, int? villageId, int? areaId, int page = 1)
         {
-            var customers = await _customerService.GetAllCustomersAsync();
+            var result = await _customerService.GetAllCustomersAsync(searchTerm, villageId, areaId, page, ApplicationConstants.DefaultPageSize);
             var model = new CustomerIndexViewModel
             {
-                Customers = customers.Select(customer => new CustomerListItemViewModel
+                SearchTerm = searchTerm,
+                VillageId = villageId,
+                AreaId = areaId,
+                Customers = result.Items.Select(customer => new CustomerListItemViewModel
                 {
                     Id = customer.Id,
                     FullName = customer.FullName,
@@ -35,13 +39,12 @@ namespace HansdeepKhataLedger.Web.Controllers
                     PendingBalance = 0,
                     LastTransactionDate = null
                 }).ToList(),
-                CurrentPage = 1,
-                TotalPages = 1,
-                TotalRecords = customers.Count(),
-                SortBy = "Name",
-                SortDescending = false
+                CurrentPage = result.CurrentPage,
+                TotalPages = result.TotalPages,
+                TotalRecords = result.TotalRecords
             };
-            return View(model);
+           await LoadDropdownsAsync(villageId, areaId);
+           return View(model);
         }
         [HttpGet]
         public async Task<IActionResult> Create()
@@ -58,7 +61,14 @@ namespace HansdeepKhataLedger.Web.Controllers
                 await LoadDropdownsAsync(model.VillageId);
                 return View(model);
             }
+            if (await _customerService.MobileNumberExistsAsync(model.MobileNumber.Trim()))
+            {
+                ModelState.AddModelError(nameof(model.MobileNumber),
+                    "A customer with this mobile number already exists.");
 
+                await LoadDropdownsAsync(model.VillageId);
+                return View(model);
+            }
             var customer = new Customer
             {
                 FullName = model.FullName,
@@ -75,11 +85,6 @@ namespace HansdeepKhataLedger.Web.Controllers
 
             return RedirectToAction(nameof(Index));
 
-        }
-        [HttpGet]
-        public IActionResult Details(int id)
-        {
-            return View();
         }
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
@@ -113,7 +118,14 @@ namespace HansdeepKhataLedger.Web.Controllers
                 await LoadDropdownsAsync(model.VillageId, model.AreaId);
                 return View(model);
             }
+            if (await _customerService.MobileNumberExistsAsync(model.MobileNumber.Trim(),model.Id))
+            {
+                ModelState.AddModelError(nameof(model.MobileNumber),
+                    "A customer with this mobile number already exists.");
 
+                await LoadDropdownsAsync(model.VillageId);
+                return View(model);
+            }
             var customer = new Customer
             {
                 Id = model.Id,

@@ -1,4 +1,5 @@
-﻿using HansdeepKhataLedger.Domain.Entities;
+﻿using HansdeepKhataLedger.Application.Common;
+using HansdeepKhataLedger.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace HansdeepKhataLedger.Application.Interfaces.Services
 {
     public interface ICustomerService
     {
-        Task<List<Customer>> GetAllCustomersAsync();
+        Task<PagedResult<Customer>> GetAllCustomersAsync(string? searchTerm, int? villageId, int? areaId, int page, int pageSize);
         Task<Customer?> GetCustomerByIdAsync(int id);
         Task AddCustomerAsync(Customer customer, int userId);
         Task UpdateCustomerAsync(Customer customer, int userId);
@@ -17,6 +18,7 @@ namespace HansdeepKhataLedger.Application.Interfaces.Services
         Task<Village> AddVillageAsync(string name);
         Task<List<Area>> GetAreasByVillageAsync(int villageId);
         Task<Area> AddAreaAsync(string name, int villageId);
+        Task<bool> MobileNumberExistsAsync(string mobileNumber, int? excludeCustomerId = null);
 
     }
 }

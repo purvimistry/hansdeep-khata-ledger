@@ -46,6 +46,10 @@ namespace HansdeepKhataLedger.Infrastructure.Persistence.Configurations
                 .WithMany(x => x.Customers)
                 .HasForeignKey(x => x.AreaId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasIndex(x => x.MobileNumber)
+                .IsUnique()
+                .HasFilter("[IsActive] = 1");
         }
     }
 }

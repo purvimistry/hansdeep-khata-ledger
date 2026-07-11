@@ -129,11 +129,11 @@ function openEntityModal(options) {
 
     const villageContainer = document.getElementById("entityVillageContainer");
     if (options.selectedVillageName) {
-        villageContainer.style.display = "block";
+        villageContainer.classList.remove("d-none");
         document.getElementById("selectedVillageName").textContent = options.selectedVillageName;
     }
     else {
-        villageContainer.style.display = "none";
+        villageContainer.classList.add("d-none");
     }
     document.getElementById("entityModal")
         .classList.add("show");
