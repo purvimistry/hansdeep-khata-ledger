@@ -9,7 +9,6 @@ namespace HansdeepKhataLedger.Domain.Entities
 {
     public class Customer : BaseEntity
     {
-        public int Id { get; set; }
         public string FullName { get; set; } = string.Empty;
         public string? MobileNumber {  get; set; }
         public string? AlternateMobileNumber { get; set; }
@@ -20,6 +19,7 @@ namespace HansdeepKhataLedger.Domain.Entities
         public string? Notes { get; set; }  
         public decimal AdvanceBalance {  get; set; }
         public bool IsActive { get; set; } = true;
+        public ICollection<LedgerEntry> LedgerEntries { get; set; } = new List<LedgerEntry>();
 
     }
 }

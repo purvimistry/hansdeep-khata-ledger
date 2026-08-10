@@ -30,8 +30,10 @@ namespace HansdeepKhataLedger.Infrastructure
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IVillageRepository, VillageRepository>();
             services.AddScoped<IAreaRepository, AreaRepository>();
+            services.AddScoped<ILedgerRepository, LedgerRepository>();
 
             services.AddScoped<ICustomerService, CustomerService>();
+            services.AddScoped<ILedgerService, LedgerService>();
             return services;
         }
     }

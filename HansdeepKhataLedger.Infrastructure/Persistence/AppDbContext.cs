@@ -19,6 +19,7 @@ namespace HansdeepKhataLedger.Infrastructure.Persistence
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Village> Villages { get; set; }    
         public DbSet<Area> Areas { get; set; }
+        public DbSet<LedgerEntry> LedgerEntries { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

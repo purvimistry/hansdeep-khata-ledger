@@ -54,8 +54,9 @@
                                    asp-route-id="@customer.Id">
                                     Edit
                                 </a>
-                                <a  asp-action="Index"
-                                   asp-route-id="@customer.Id">
+                                <a  asp-controller="Ledger"
+                                    asp-action="Index"
+                                   asp-route-customerId="@customer.Id">
                                     Open Ledger
                                 </a>
                             </div>
