@@ -3,6 +3,7 @@ using HansdeepKhataLedger.Application.Interfaces.Repositories;
 using HansdeepKhataLedger.Application.Interfaces.Services;
 using HansdeepKhataLedger.Domain.Entities;
 using HansdeepKhataLedger.Infrastructure.Persistence;
+using HansdeepKhataLedger.Infrastructure.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,13 +18,14 @@ namespace HansdeepKhataLedger.Infrastructure.Services
         private readonly ICustomerRepository _customerRepository;
         private readonly IVillageRepository _villageRepository;
         private readonly IAreaRepository _areaRepository;
-
-        public CustomerService(AppDbContext dbContext, ICustomerRepository customerRepository, IVillageRepository villageRepository, IAreaRepository areaRepository )
+        private readonly ILedgerRepository _ledgerRepository;
+        public CustomerService(AppDbContext dbContext, ICustomerRepository customerRepository, IVillageRepository villageRepository, IAreaRepository areaRepository, ILedgerRepository ledgerRepository)
         {
             _dbContext = dbContext;
             _customerRepository = customerRepository;
             _villageRepository = villageRepository;
             _areaRepository = areaRepository;
+            _ledgerRepository = ledgerRepository;
         }
 
         public async Task AddCustomerAsync(Customer customer,  int userId)
@@ -122,6 +124,10 @@ namespace HansdeepKhataLedger.Infrastructure.Services
         {
             return await _customerRepository.MobileNumberExistsAsync(mobileNumber, excludeCustomerId);
         }
-
+        public async Task<List<CustomerLedgerSummary>> GetCustomerLedgerSummariesAsync(
+    List<int> customerIds)
+        {
+            return await _ledgerRepository.GetCustomerLedgerSummariesAsync(customerIds);
+        }
     }
 }

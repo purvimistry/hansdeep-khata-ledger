@@ -23,6 +23,13 @@ namespace HansdeepKhataLedger.Web.Controllers
         public async Task<IActionResult> Index(string? searchTerm, int? villageId, int? areaId, int page = 1)
         {
             var result = await _customerService.GetAllCustomersAsync(searchTerm, villageId, areaId, page, ApplicationConstants.DefaultPageSize);
+            var customerIds = result.Items.Select(c => c.Id).ToList();
+
+            var ledgerSummaries = await _customerService
+                .GetCustomerLedgerSummariesAsync(customerIds);
+
+            var ledgerSummaryLookup = ledgerSummaries
+                .ToDictionary(x => x.CustomerId);
             var model = new CustomerIndexViewModel
             {
                 SearchTerm = searchTerm,
@@ -36,8 +43,12 @@ namespace HansdeepKhataLedger.Web.Controllers
                     VillageName = customer.Village?.Name ?? string.Empty,
                     AreaName = customer.Area?.Name,
                     IsActive = customer.IsActive,
-                    PendingBalance = 0,
-                    LastTransactionDate = null
+                    PendingBalance = ledgerSummaryLookup.TryGetValue(customer.Id, out var summary)
+                        ? summary.PendingBalance
+                        : 0,
+                    LastTransactionDate = ledgerSummaryLookup.TryGetValue(customer.Id, out summary)
+                        ? summary.LastTransactionDate
+                        : null
                 }).ToList(),
                 CurrentPage = result.CurrentPage,
                 TotalPages = result.TotalPages,

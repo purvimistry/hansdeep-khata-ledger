@@ -1,13 +1,17 @@
 ﻿@model HansdeepKhataLedger.Web.Models.Customer.CustomerIndexViewModel
 
 <div class="table-card">
+    <div class="table-scroll-hint">
+        Scroll horizontally to view all columns
+    </div>
     <table class="customer-table">
         <thead>
             <tr>
                 <th>Customer</th>
                 <th>Contact</th>
                 <th>Location</th>
-                <th>Pending</th>
+                <th>Pending Balance</th>
+                <th>Last Transaction</th>
                 <th>Status</th>
                 <th>Actions</th>
             </tr>
@@ -33,7 +37,36 @@
                                 <small>@customer.VillageName</small>
                             </div>
                          </td>
-                        <td>₹ @customer.PendingBalance.ToString("N2")</td>
+                        <td>
+                            @if (customer.PendingBalance > 0)
+                            {
+                                <span class="balance-due">
+                                    ₹ @customer.PendingBalance.ToString("N2") Due
+                                </span>
+                            }
+                            else if (customer.PendingBalance < 0)
+                            {
+                                <span class="balance-advance">
+                                    ₹ @Math.Abs(customer.PendingBalance).ToString("N2") Advance
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="balance-settled">
+                                    Settled
+                                </span>
+                            }
+                        </td>
+                        <td>
+                            @if (customer.LastTransactionDate.HasValue)
+                            {
+                                @customer.LastTransactionDate.Value.ToString("dd MMM yyyy")
+                            }
+                            else
+                            {
+                                <span>—</span>
+                            }
+                        </td>
                         <td>
                             @if(customer.IsActive)
                             {

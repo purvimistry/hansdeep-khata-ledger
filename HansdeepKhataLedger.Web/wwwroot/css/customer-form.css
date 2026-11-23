@@ -1,7 +1,4 @@
-﻿/* ==========================================================
-   ADD CUSTOMER PAGE
-==========================================================*/
-
+﻿
 .page-header {
     margin-bottom: 28px;
 }
@@ -203,10 +200,6 @@
         border-color: var(--accent);
         color: var(--primary);
     }
-
-/* ==========================================
-   TOM SELECT
-==========================================*/
 
 .ts-wrapper.form-select .ts-control input,
 .ts-wrapper.form-select .ts-dropdown,

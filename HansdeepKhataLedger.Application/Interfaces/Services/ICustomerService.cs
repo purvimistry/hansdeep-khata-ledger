@@ -19,6 +19,8 @@ namespace HansdeepKhataLedger.Application.Interfaces.Services
         Task<List<Area>> GetAreasByVillageAsync(int villageId);
         Task<Area> AddAreaAsync(string name, int villageId);
         Task<bool> MobileNumberExistsAsync(string mobileNumber, int? excludeCustomerId = null);
+        Task<List<CustomerLedgerSummary>> GetCustomerLedgerSummariesAsync(
+    List<int> customerIds);
 
     }
 }

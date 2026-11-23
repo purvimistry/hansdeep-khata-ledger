@@ -1,0 +1,143 @@
+﻿@model HansdeepKhataLedger.Web.Models.Ledger.LedgerEntryCreateViewModel
+@{
+    ViewData["Title"] = "Add Ledger Entry";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/ledger.css" asp-append-version="true" />
+}
+<div class="ledger-create-page">
+    <div class="ledger-page-header">
+        <a asp-controller="Ledger" asp-action="Index" asp-route-customerId="@Model.CustomerId" class="ledger-back-link">
+            <svg viewBox="0 0 24 24">
+                <path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            Back to Ledger
+        </a>
+        <div class="ledger-title-section">
+            <h1>Add Ledger Entry</h1>
+            <p>
+                Record a new transaction for
+                <strong>@ViewBag.CustomerName</strong>
+            </p>
+        </div>
+    </div>
+    <div class="ledger-form-card">
+        <div class="ledger-form-header">
+            <div class="ledger-form-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                </svg>
+            </div>
+            <div>
+                <h2>Transaction Details</h2>
+                <p>Enter the details of this transaction.</p>
+            </div>
+        </div>
+
+        <form asp-action="Create" method="post" class="ledger-entry-form">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="CustomerId" />
+            <!-- ENTRY TYPE -->
+            <div class="form-group">
+                <label class="form-label">
+                    Entry Type
+                    <span class="required">*</span>
+                </label>
+                <div class="entry-type-options">
+                    <label class="entry-type-option borrow-option">
+                        <input type="radio" asp-for="EntryType" value="@HansdeepKhataLedger.Domain.Enums.LedgerEntryType.Borrow" />
+                        <span class="entry-type-content">
+                            <span class="entry-type-icon">
+                                ↓
+                            </span>
+                            <span>
+                                <strong>Borrow</strong>
+                                <small>Customer owes money</small>
+                            </span>
+                        </span>
+                    </label>
+                    <label class="entry-type-option payment-option">
+                        <input type="radio" asp-for="EntryType" value="@HansdeepKhataLedger.Domain.Enums.LedgerEntryType.Payment" />
+                        <span class="entry-type-content">
+                            <span class="entry-type-icon">
+                                ↑
+                            </span>
+                            <span>
+                                <strong>Payment</strong>
+                                <small>Customer pays money</small>
+                            </span>
+                        </span>
+                    </label>
+                </div>
+                <span asp-validation-for="EntryType" class="validation-message"></span>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label asp-for="Amount" class="form-label">
+                        Amount
+                        <span class="required">*</span>
+                    </label>
+                    <div class="amount-input-wrapper">
+                        <span class="currency-symbol">₹</span>
+                        <input asp-for="Amount" type="number" step="0.01" min="0.01" class="form-control amount-input" placeholder="0.00" />
+                    </div>
+                    <span asp-validation-for="Amount" class="validation-message"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="EntryDate" class="form-label">
+                        Entry Date
+                        <span class="required">*</span>
+                    </label>
+                    <input asp-for="EntryDate" type="datetime-local" class="form-control" />
+                    <span asp-validation-for="EntryDate" class="validation-message"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Description" class="form-label">
+                    Description
+                    <span class="optional">
+                        Optional
+                    </span>
+                </label>
+                <textarea asp-for="Description" class="form-control description-input" rows="4" maxlength="500" placeholder="e.g. Grocery purchase, cash payment..."></textarea>
+                <div class="field-hint">
+                    Maximum 500 characters.
+                </div>
+                <span asp-validation-for="Description"
+                      class="validation-message">
+                </span>
+            </div>
+
+            <div class="form-actions">
+                <a asp-controller="Ledger"
+                   asp-action="Index"
+                   asp-route-customerId="@Model.CustomerId"
+                   class="secondary-form-btn">
+                    Cancel
+                </a>
+
+                <button type="submit" class="primary-form-btn">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M5 12l4 4L19 6"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round" />
+                    </svg>
+                    Save Entry
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+}

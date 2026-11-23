@@ -208,7 +208,6 @@ body {
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
     }
 
-/*  Time/Profile Alignment Group */
 .meta-actions-group {
     display: flex;
     align-items: center;
@@ -232,7 +231,6 @@ body {
     color: var(--text-muted);
 }
 
-/* Topbar Profile Avatar Module */
 .user-profile-widget {
     display: flex;
     align-items: center;
@@ -282,8 +280,6 @@ body {
     font-size: 11px;
     color: var(--text-muted);
 }
-
-/* Master Context Content Ingestion Box */
 .content-area {
     padding: 32px;
     flex: 1;
@@ -487,5 +483,87 @@ body {
         right: 16px;
         min-width: auto;
         max-width: none;
+    }
+}
+.app-container {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+}
+
+.main-content {
+    flex: 1;
+    min-width: 0;
+    width: 0;
+    max-width: 100%;
+}
+
+.content-area {
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+    padding: 32px;
+}
+
+    .content-area main {
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+    }
+
+.topbar {
+    min-width: 0;
+    max-width: 100%;
+    gap: 12px;
+}
+
+.search-container {
+    width: 320px;
+    max-width: 35%;
+    min-width: 0;
+}
+
+.meta-actions-group {
+    min-width: 0;
+    gap: 16px;
+}
+
+@media (max-width: 992px) {
+    .main-content {
+        margin-left: 0;
+    }
+
+    .content-area {
+        padding: 24px;
+    }
+
+    .search-container {
+        max-width: 40%;
+    }
+}
+
+@media (max-width: 576px) {
+    .content-area {
+        padding: 14px;
+    }
+
+    .topbar {
+        padding: 0 12px;
+    }
+
+    .search-container {
+        display: none;
+    }
+
+    .meta-actions-group {
+        margin-left: auto;
+    }
+
+    .user-profile-widget {
+        gap: 8px;
+    }
+
+    .profile-info {
+        display: none;
     }
 }

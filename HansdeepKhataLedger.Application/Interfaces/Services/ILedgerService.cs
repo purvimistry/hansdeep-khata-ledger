@@ -10,5 +10,6 @@ namespace HansdeepKhataLedger.Application.Interfaces.Services
     public interface ILedgerService
     {
         Task<List<LedgerEntry>> GetCustomerLedgerAsync(int customerId);
+        Task AddLedgerEntryAsync(LedgerEntry ledgerEntry);
     }
 }

@@ -1,6 +1,216 @@
-﻿@{
+﻿@model HansdeepKhataLedger.Web.Models.Ledger.CustomerLedgerViewModel
+@{
     ViewData["Title"] = "Customer Ledger";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-<h2>Customer Ledger</h2>
-<p>Ledger Module under development</p>
+@section Styles{
+    <link rel="stylesheet" href="~/css/ledger.css" asp-append-version="true"/>
+}
+<div class="ledger-page">
+    <div class="ledger-page-header">
+        <a asp-controller="Customer" asp-action="Index" class="ledger-back-link">
+            <svg viewBox="0 0 24 24">
+                <path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            Back to Customers
+        </a>
+
+        <div class="ledger-title-section">
+            <div>
+                <h1>@Model.CustomerName's Ledger</h1>
+                <p>View all transactions and account activity</p>
+            </div>
+        </div>
+    </div>
+    <!-- CUSTOMER SUMMARY -->
+    <div class="ledger-summary-card">
+        <div class="customer-summary-left">
+            <div class="customer-avatar">
+                <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="1.8" />
+                    <path d="M4 20a8 8 0 0 1 16 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                </svg>
+            </div>
+            <div class="customer-summary-info">
+                <span class="summary-label">CUSTOMER</span>
+                <h2>@Model.CustomerName</h2>
+                <div class="customer-meta">
+                    <span>
+                        <svg viewBox="0 0 24 24">
+                            <path d="M6 2h12v20H6z" fill="none" stroke="currentColor" stroke-width="1.8" rx="2" />
+                            <path d="M9 5h6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                            <path d="M9 18h6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                        </svg>
+                        @Model.MobileNumber
+                    </span>
+                    <span class="meta-separator">•</span>
+                    <span>
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z" fill="none" stroke="currentColor" stroke-width="1.8" />
+                            <circle cx="12" cy="10" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8" />
+                        </svg>
+                        @Model.VillageName
+                    </span>
+                    @if (!string.IsNullOrWhiteSpace(Model.AreaName))
+                    {
+                        <span class="meta-separator">•</span>
+                        <span>@Model.AreaName</span>
+                    }
+                </div>
+            </div>
+        </div>
+        <!-- BALANCE -->
+        <div class="balance-section">
+            <span class="balance-label">CURRENT BALANCE</span>
+
+            <div class="balance-amount @(Model.CurrentBalance > 0 ? "balance-due" : Model.CurrentBalance < 0 ? "balance-advance" : "balance-clear")">
+                <span class="currency">₹</span>
+                @Math.Abs(Model.CurrentBalance).ToString("N2")
+            </div>
+
+            @if (Model.CurrentBalance > 0)
+            {
+                <span class="balance-status balance-due">
+                    Amount Due
+                </span>
+            }
+            else if (Model.CurrentBalance < 0)
+            {
+                <span class="balance-status balance-advance">
+                    Advance Balance
+                </span>
+            }
+            else
+            {
+                <span class="balance-status balance-settled">
+                    Account Settled
+                </span>
+            }
+        </div>
+    </div>
+    <!-- LEDGER SECTION -->
+    <div class="ledger-card">
+        <div class="ledger-card-header">
+            <div class="ledger-heading">
+                <div class="ledger-heading-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M6 3h12v18H6z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" />
+                        <path d="M9 7h6M9 11h6M9 15h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                    </svg>
+                </div>
+                <div>
+                    <h3>Ledger Entries</h3>
+                    <span>Complete transaction history</span>
+                </div>
+            </div>
+            <div class="ledger-actions">
+                <a asp-controller="Ledger" asp-action="Create" asp-route-customerId="@Model.CustomerId" class="ledger-action-btn primary-action">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                    Add Entry
+                </a>
+            </div>
+        </div>
+        @if (!Model.Entries.Any())
+        {
+            <div class="ledger-empty-state">
+                <div class="empty-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M6 3h12v18H6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+                        <path d="M9 8h6M9 12h6M9 16h3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+                    </svg>
+                </div>
+                <h3>No transactions yet</h3>
+                <p>
+                    There are no ledger entries recorded for
+                    <strong>@Model.CustomerName</strong>.
+                </p>
+                <a asp-controller="Ledger" asp-action="Create" asp-route-customerId="@Model.CustomerId" class="empty-action-btn">
+                    Add First Entry
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="ledger-table-wrapper">
+                <div class="table-scroll-hint">
+                    Scroll horizontally to view all columns
+                </div>
+                <table class="ledger-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th class="amount-column">Borrow</th>
+                            <th class="amount-column">Payment</th>
+                            <th class="amount-column">Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var entry in Model.Entries)
+                        {
+                            <tr>
+                                <td class="date-cell">
+                                    <span class="entry-date">
+                                        @entry.EntryDate.ToString("dd MMM yyyy")
+                                    </span>
+                                    <span class="entry-time">
+                                        @entry.EntryDate.ToString("hh:mm tt")
+                                    </span>
+                                </td>
+                                <td class="description-cell">
+                                    @if (string.IsNullOrWhiteSpace(entry.Description))
+                                    {
+                                        <span class="no-description">
+                                            No description
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        @entry.Description
+                                    }
+                                </td>
+                                @if (entry.EntryType == HansdeepKhataLedger.Domain.Enums.LedgerEntryType.Borrow)
+                                {
+                                    <td class="amount-column borrow-amount">
+                                        ₹@entry.Amount.ToString("N2")
+                                    </td>
+
+                                    <td class="amount-column muted-amount">
+                                        —
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td class="amount-column muted-amount">
+                                        —
+                                    </td>
+
+                                    <td class="amount-column payment-amount">
+                                        ₹@entry.Amount.ToString("N2")
+                                    </td>
+                                }
+                                     <td class="amount-column balance-cell">
+
+                                     @if (entry.RunningBalance > 0)
+                                    {
+                                        <span>₹@entry.RunningBalance.ToString("N2") Due</span>
+                                    }
+                                    else if (entry.RunningBalance < 0)
+                                    {
+                                        <span>₹@Math.Abs(entry.RunningBalance).ToString("N2") Advance</span>
+                                    }
+                                    else
+                                    {
+                                        <span>Settled</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>
