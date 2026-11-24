@@ -86,5 +86,9 @@ namespace HansdeepKhataLedger.Infrastructure.Repositories
                 c.MobileNumber == mobileNumber &&
                 (!excludeCustomerId.HasValue || c.Id != excludeCustomerId.Value));
         }
+        public async Task<int> GetTotalCustomersAsync()
+        {
+            return await _dbContext.Customers.CountAsync(c => !c.IsDeleted && c.IsActive);
+        }
     }
 }

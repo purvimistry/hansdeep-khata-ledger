@@ -34,6 +34,7 @@ namespace HansdeepKhataLedger.Infrastructure
 
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<ILedgerService, LedgerService>();
+            services.AddScoped<IDashboardService, DashboardService>();
             return services;
         }
     }

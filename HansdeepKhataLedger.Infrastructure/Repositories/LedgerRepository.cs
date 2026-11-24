@@ -49,5 +49,77 @@ namespace HansdeepKhataLedger.Infrastructure.Repositories
                 })
                 .ToListAsync();
         }
+        public async Task<decimal> GetTotalPendingAmountAsync()
+        {
+            var customerBalances = await _dbContext.Customers
+                .Select(c => new
+                {
+                    Balance = c.AdvanceBalance +
+                        c.LedgerEntries.Sum(l =>
+                            l.EntryType == LedgerEntryType.Borrow
+                                ? l.Amount
+                                : -l.Amount)
+                })
+                .ToListAsync();
+
+            return customerBalances
+                .Where(c => c.Balance > 0)
+                .Sum(c => c.Balance);
+        }
+
+        public async Task<decimal> GetTodaysCreditAsync()
+        {
+            var today = DateTime.Today;
+            var tomorrow = today.AddDays(1);
+
+            return await _dbContext.LedgerEntries
+                .Where(l => l.EntryType == LedgerEntryType.Borrow &&
+                            l.EntryDate >= today &&
+                            l.EntryDate < tomorrow)
+                .SumAsync(l => (decimal?)l.Amount) ?? 0;
+        }
+
+        public async Task<int> GetTodaysCreditEntriesCountAsync()
+        {
+            var today = DateTime.Today;
+            var tomorrow = today.AddDays(1);
+
+            return await _dbContext.LedgerEntries
+                .CountAsync(l => l.EntryType == LedgerEntryType.Borrow &&
+                                 l.EntryDate >= today &&
+                                 l.EntryDate < tomorrow);
+        }
+
+        public async Task<decimal> GetTodaysCollectionAsync()
+        {
+            var today = DateTime.Today;
+            var tomorrow = today.AddDays(1);
+
+            return await _dbContext.LedgerEntries
+                .Where(l => l.EntryType == LedgerEntryType.Payment &&
+                            l.EntryDate >= today &&
+                            l.EntryDate < tomorrow)
+                .SumAsync(l => (decimal?)l.Amount) ?? 0;
+        }
+
+        public async Task<List<LedgerEntry>> GetRecentLedgerEntriesAsync(int count)
+        {
+            return await _dbContext.LedgerEntries
+                .Include(l => l.Customer)
+                .Where(l => l.EntryType == LedgerEntryType.Borrow)
+                .OrderByDescending(l => l.EntryDate)
+                .Take(count)
+                .ToListAsync();
+        }
+
+        public async Task<List<LedgerEntry>> GetRecentPaymentsAsync(int count)
+        {
+            return await _dbContext.LedgerEntries
+                .Include(l => l.Customer)
+                .Where(l => l.EntryType == LedgerEntryType.Payment)
+                .OrderByDescending(l => l.EntryDate)
+                .Take(count)
+                .ToListAsync();
+        }
     }
 }

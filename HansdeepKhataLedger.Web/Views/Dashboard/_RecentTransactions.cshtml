@@ -1,0 +1,32 @@
+﻿@model List<HansdeepKhataLedger.Web.Models.Dashboard.RecentTransactionViewModel>
+<table class="custom-table">
+    <thead>
+        <tr>
+            <th align="left" style="text-align: left; width: 35%;">Customer Name</th>
+            <th align="left" style="text-align: left; width: 20%;">Amount</th>
+            <th align="left" style="text-align: left; width: 20%;">Date</th>
+            <th align="left" style="text-align: left; width: 25%;">Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Any())
+        {
+            @foreach (var entry in Model)
+            {
+                <tr>
+                    <td><div class="table-text-main">@entry.CustomerName</div></td>
+                    <td><div class="table-text-weight">₹@entry.Amount.ToString("N2")</div></td>
+                    <td><div class="table-text-muted">@entry.EntryDate.ToString("dd MMM yyyy")</div></td>
+                    <td><div class="table-text-muted">@entry.Description</div></td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="4">No recent payments found.</td>
+            </tr>
+        }
+        
+    </tbody>
+</table>

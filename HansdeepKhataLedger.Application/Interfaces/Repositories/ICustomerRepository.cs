@@ -16,5 +16,6 @@ namespace HansdeepKhataLedger.Application.Interfaces.Repositories
         void Update(Customer customer);
         Task<bool> ExistsAsync(int id);
         Task<bool> MobileNumberExistsAsync(string mobileNumber, int? excludeCustomerId = null);
+        Task<int> GetTotalCustomersAsync();
     }
 }

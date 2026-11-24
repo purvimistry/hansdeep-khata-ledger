@@ -14,5 +14,12 @@ namespace HansdeepKhataLedger.Application.Interfaces.Repositories
         Task AddAsync(LedgerEntry ledgerEntry);
         Task<List<CustomerLedgerSummary>> GetCustomerLedgerSummariesAsync(
     List<int> customerIds);
+        Task<decimal> GetTotalPendingAmountAsync();
+        Task<decimal> GetTodaysCreditAsync();
+        Task<int> GetTodaysCreditEntriesCountAsync();
+        Task<decimal> GetTodaysCollectionAsync();
+
+        Task<List<LedgerEntry>> GetRecentLedgerEntriesAsync(int count);
+        Task<List<LedgerEntry>> GetRecentPaymentsAsync(int count);
     }
 }

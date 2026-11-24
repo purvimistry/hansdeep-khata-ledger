@@ -1,4 +1,5 @@
 ﻿@using System.Security.Claims
+@model HansdeepKhataLedger.Web.Models.Dashboard.DashboardViewModel
 @{
     ViewData["Title"] = "Dashboard";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
@@ -41,9 +42,9 @@
 
             <div class="stat-details">
                 <span class="stat-label">Total Customers</span>
-                <h3 class="stat-value">1,248</h3>
+                <h3 class="stat-value">@Model.TotalCustomers</h3>
                 <span class="stat-meta positive-text">
-                    +12 customers this month
+                    Active customers
                 </span>
             </div>
         </div>
@@ -64,7 +65,7 @@
 
             <div class="stat-details">
                 <span class="stat-label">Total Pending Amount</span>
-                <h3 class="stat-value">₹ 2,48,530</h3>
+                <h3 class="stat-value">₹@Model.TotalPendingAmount.ToString("N2")</h3>
                 <span class="stat-meta warning-text">
                     Outstanding customer balance
                 </span>
@@ -88,9 +89,9 @@
 
             <div class="stat-details">
                 <span class="stat-label">Today's Credit</span>
-                <h3 class="stat-value">₹ 4,520</h3>
+                <h3 class="stat-value">₹@Model.TodaysCredit.ToString("N2")</h3>
                 <span class="stat-meta neutral-text">
-                    18 credit entries added today
+                    @Model.TodaysCreditEntries entries added today
                 </span>
             </div>
         </div>
@@ -112,7 +113,7 @@
 
             <div class="stat-details">
                 <span class="stat-label">Today's Collection</span>
-                <h3 class="stat-value">₹ 3,700</h3>
+                <h3 class="stat-value">₹@Model.TodaysCollection.ToString("N2")</h3>
                 <span class="stat-meta positive-text">
                     Payments received today
                 </span>
@@ -132,7 +133,7 @@
                 <a href="#" class="view-all-link">View All</a>
             </div>
             <div class="table-responsive">
-                @await Html.PartialAsync("_RecentLedgerEntries")
+                @await Html.PartialAsync("_RecentTransactions", Model.RecentLedgerEntries)
             </div>
            
         </div>
@@ -146,7 +147,7 @@
                 <a href="#" class="view-all-link">View All</a>
             </div>
             <div class="table-responsive">
-                @await Html.PartialAsync("_RecentPayments")
+                @await Html.PartialAsync("_RecentTransactions", Model.RecentPayments)
             </div>
             
         </div>
