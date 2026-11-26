@@ -1,4 +1,5 @@
-﻿using HansdeepKhataLedger.Application.Interfaces.Repositories;
+﻿using HansdeepKhataLedger.Application.Common;
+using HansdeepKhataLedger.Application.Interfaces.Repositories;
 using HansdeepKhataLedger.Application.Interfaces.Services;
 using HansdeepKhataLedger.Domain.Entities;
 using HansdeepKhataLedger.Infrastructure.Persistence;
@@ -28,6 +29,14 @@ namespace HansdeepKhataLedger.Infrastructure.Services
         {
             await _ledgerRepository.AddAsync(ledgerEntry);
             await _dbContext.SaveChangesAsync();
+        }
+        public async Task<PagedResult<LedgerEntry>> GetCreditEntriesAsync(string? searchTerm,DateTime? startDate,DateTime? endDate,int page,int pageSize)
+        {
+            return await _ledgerRepository.GetCreditEntriesAsync(searchTerm,startDate,endDate,page,pageSize);
+        }
+        public async Task<decimal> GetTotalCreditAmountAsync(string? searchTerm,DateTime? startDate,DateTime? endDate)
+        {
+            return await _ledgerRepository.GetTotalCreditAmountAsync(searchTerm, startDate, endDate);
         }
     }
 }

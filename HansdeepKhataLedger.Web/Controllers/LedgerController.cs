@@ -104,7 +104,7 @@ namespace HansdeepKhataLedger.Web.Controllers
             };
 
             await _ledgerService.AddLedgerEntryAsync(ledgerEntry);
-
+            TempData["Success"] = "Ledger entry added successfully.";
             return RedirectToAction(
                 nameof(Index),
                 new { customerId = model.CustomerId });
