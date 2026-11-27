@@ -1,6 +1,7 @@
 ﻿using HansdeepKhataLedger.Application.Common;
 using HansdeepKhataLedger.Application.Interfaces.Repositories;
 using HansdeepKhataLedger.Domain.Entities;
+using HansdeepKhataLedger.Domain.Entities.Common.Reports;
 using HansdeepKhataLedger.Domain.Enums;
 using HansdeepKhataLedger.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -246,5 +247,57 @@ namespace HansdeepKhataLedger.Infrastructure.Repositories
 
             return query;
         }
+
+        public async Task<List<CustomerOutstandingReport>> GetCustomerOutstandingReportsAsync(string? searchTerm)
+        {
+            var query = _dbContext.Customers
+                .Include(c => c.Village)
+                .Include(c => c.Area)
+                .AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                searchTerm = searchTerm.Trim();
+
+                query = query.Where(c =>
+                    c.FullName.Contains(searchTerm) ||
+                    c.Village.Name.Contains(searchTerm) ||
+                    (c.Area != null && c.Area.Name.Contains(searchTerm)) ||
+                    (c.MobileNumber != null &&
+                     c.MobileNumber.Contains(searchTerm)));
+            }
+
+            return await query
+                .Select(c => new CustomerOutstandingReport
+                {
+                    CustomerId = c.Id,
+                    CustomerName = c.FullName,
+                    VillageName = c.Village.Name,
+                    AreaName = c.Area != null ? c.Area.Name : null,
+                    MobileNumber = c.MobileNumber,
+
+                    AdvanceBalance = c.AdvanceBalance,
+
+                    TotalCredit = c.LedgerEntries
+                        .Where(l => l.EntryType == LedgerEntryType.Borrow)
+                        .Sum(l => (decimal?)l.Amount) ?? 0m,
+
+                    TotalPayment = c.LedgerEntries
+                        .Where(l => l.EntryType == LedgerEntryType.Payment)
+                        .Sum(l => (decimal?)l.Amount) ?? 0m,
+
+                    OutstandingAmount = c.AdvanceBalance +
+                        c.LedgerEntries.Sum(l =>
+                            l.EntryType == LedgerEntryType.Borrow
+                                ? l.Amount
+                                : -l.Amount),
+
+                    LastTransactionDate = c.LedgerEntries
+                        .Max(l => (DateTime?)l.EntryDate)
+                })
+                .OrderByDescending(c => c.OutstandingAmount)
+                .ToListAsync();
+        }
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using HansdeepKhataLedger.Application.Common;
 using HansdeepKhataLedger.Domain.Entities;
+using HansdeepKhataLedger.Domain.Entities.Common.Reports;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,5 +17,6 @@ namespace HansdeepKhataLedger.Application.Interfaces.Services
         Task<decimal> GetTotalCreditAmountAsync(string? searchTerm,DateTime? startDate,DateTime? endDate);
         Task<PagedResult<LedgerEntry>> GetPaymentEntriesAsync(string? searchTerm,DateTime? startDate,DateTime? endDate,int page,int pageSize);
         Task<decimal> GetTotalPaymentAmountAsync(string? searchTerm,DateTime? startDate,DateTime? endDate);
+        Task<List<CustomerOutstandingReport>> GetCustomerOutstandingReportsAsync(string? searchTerm);
     }
 }

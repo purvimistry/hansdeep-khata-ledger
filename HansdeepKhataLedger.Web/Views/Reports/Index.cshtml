@@ -1,0 +1,194 @@
+﻿@model HansdeepKhataLedger.Web.Models.Reports.ReportsIndexViewModel
+
+@{
+    ViewData["Title"] = "Ledger Reports";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/reports.css" asp-append-version="true" />
+}
+
+<div class="reports-page">
+
+    <div class="reports-header">
+        <div>
+            <h1>Ledger Reports</h1>
+            <p>Financial overview and customer outstanding analysis</p>
+        </div>
+    </div>
+
+    <div class="reports-summary-grid">
+
+        <div class="report-summary-card">
+            <div class="report-card-icon credit-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 3v18h18"></path>
+                    <path d="m19 9-5 5-4-4-5 5"></path>
+                </svg>
+            </div>
+            <div>
+                <span>Total Credit</span>
+                <h2>₹@Model.TotalCredit.ToString("N2")</h2>
+            </div>
+        </div>
+
+        <div class="report-summary-card">
+            <div class="report-card-icon collection-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+                    <path d="M2 10h20"></path>
+                    <path d="M16 15h2"></path>
+                </svg>
+            </div>
+            <div>
+                <span>Total Collection</span>
+                <h2>₹@Model.TotalCollection.ToString("N2")</h2>
+            </div>
+        </div>
+
+        <div class="report-summary-card">
+            <div class="report-card-icon outstanding-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+            </div>
+            <div>
+                <span>Total Outstanding</span>
+                <h2>₹@Model.TotalOutstanding.ToString("N2")</h2>
+            </div>
+        </div>
+
+        <div class="report-summary-card">
+            <div class="report-card-icon customers-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="10" cy="7" r="4"></circle>
+                    <path d="M20 8v6"></path>
+                    <path d="M23 11h-6"></path>
+                </svg>
+            </div>
+            <div>
+                <span>Customers With Dues</span>
+                <h2>@Model.CustomersWithDues</h2>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="report-table-card">
+
+        <div class="report-section-header">
+            <div>
+                <h3>Customer Outstanding</h3>
+                <p>Customer-wise pending balance details</p>
+            </div>
+            <span class="report-count">
+                @Model.CustomerOutstandingReports.Count Customers
+            </span>
+        </div>
+
+        <form asp-action="Index" method="get" class="report-search-form">
+            <div class="report-search-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.35-4.35"></path>
+                </svg>
+                <input type="text"
+                       name="searchTerm"
+                       value="@Model.SearchTerm"
+                       placeholder="Search customer, village or mobile..." />
+            </div>
+
+            <button type="submit" class="report-search-btn">
+                Search
+            </button>
+
+            @if (!string.IsNullOrWhiteSpace(Model.SearchTerm))
+            {
+                <a asp-action="Index" class="report-reset-btn">
+                    Reset
+                </a>
+            }
+        </form>
+
+        <div class="table-responsive">
+            <table class="reports-table">
+                <thead>
+                    <tr>
+                        <th>Customer</th>
+                        <th>Village / Area</th>
+                        <th>Mobile</th>
+                        <th class="text-end">Credit</th>
+                        <th class="text-end">Collection</th>
+                        <th class="text-end">Outstanding</th>
+                        <th>Last Transaction</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @if (Model.CustomerOutstandingReports.Any())
+                    {
+                        @foreach (var customer in Model.CustomerOutstandingReports)
+                        {
+                            <tr>
+                                <td>
+                                    <span class="report-customer-name">
+                                        @customer.CustomerName
+                                    </span>
+                                </td>
+                                <td>
+                                    <span>@customer.VillageName</span>
+                                    @if (!string.IsNullOrWhiteSpace(customer.AreaName))
+                                    {
+                                        <small class="report-location">
+                                            @customer.AreaName
+                                        </small>
+                                    }
+                                </td>
+                                <td>@(customer.MobileNumber ?? "—")</td>
+                                <td class="text-end">
+                                    ₹@customer.TotalCredit.ToString("N2")
+                                </td>
+                                <td class="text-end report-payment">
+                                    ₹@customer.TotalPayment.ToString("N2")
+                                </td>
+                                <td class="text-end">
+                                    <span class="report-balance @(customer.OutstandingAmount > 0 ? "has-due" : "settled")">
+                                        ₹@customer.OutstandingAmount.ToString("N2")
+                                    </span>
+                                </td>
+                                <td>
+                                    @(customer.LastTransactionDate?.ToString("dd MMM yyyy") ?? "—")
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="7" class="report-empty">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M4 4h16v16H4z"></path>
+                                    <path d="M4 9h16"></path>
+                                    <path d="M9 14h6"></path>
+                                </svg>
+                                <strong>No customers found</strong>
+                                <span>Try changing your search.</span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>

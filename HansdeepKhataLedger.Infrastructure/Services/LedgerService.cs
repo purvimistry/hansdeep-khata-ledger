@@ -2,6 +2,7 @@
 using HansdeepKhataLedger.Application.Interfaces.Repositories;
 using HansdeepKhataLedger.Application.Interfaces.Services;
 using HansdeepKhataLedger.Domain.Entities;
+using HansdeepKhataLedger.Domain.Entities.Common.Reports;
 using HansdeepKhataLedger.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -45,6 +46,10 @@ namespace HansdeepKhataLedger.Infrastructure.Services
         public async Task<decimal> GetTotalPaymentAmountAsync(string? searchTerm,DateTime? startDate,DateTime? endDate)
         {
             return await _ledgerRepository.GetTotalPaymentAmountAsync(searchTerm, startDate, endDate);
+        }
+        public async Task<List<CustomerOutstandingReport>> GetCustomerOutstandingReportsAsync(string? searchTerm)
+        {
+            return await _ledgerRepository.GetCustomerOutstandingReportsAsync(searchTerm);
         }
     }
 }
