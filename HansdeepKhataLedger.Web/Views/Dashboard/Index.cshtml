@@ -130,7 +130,7 @@
                     <h3>Recent Ledger Entries</h3>
                     <p>Latest customer borrow records</p>
                 </div>
-                <a href="#" class="view-all-link">View All</a>
+                <a href="~/CreditEntries/Index" class="view-all-link">View All</a>
             </div>
             <div class="table-responsive">
                 @await Html.PartialAsync("_RecentTransactions", Model.RecentLedgerEntries)
@@ -144,7 +144,7 @@
                     <h3>Recent Payments</h3>
                     <p>Latest received collections</p>
                 </div>
-                <a href="#" class="view-all-link">View All</a>
+                <a href="~/PaymentEntries/Index" class="view-all-link">View All</a>
             </div>
             <div class="table-responsive">
                 @await Html.PartialAsync("_RecentTransactions", Model.RecentPayments)

@@ -23,5 +23,7 @@ namespace HansdeepKhataLedger.Application.Interfaces.Repositories
         Task<List<LedgerEntry>> GetRecentPaymentsAsync(int count);
         Task<PagedResult<LedgerEntry>> GetCreditEntriesAsync(string? searchTerm,DateTime? startDate,DateTime? endDate,int page,int pageSize);
         Task<decimal> GetTotalCreditAmountAsync(string? searchTerm,DateTime? startDate,DateTime? endDate);
+        Task<PagedResult<LedgerEntry>> GetPaymentEntriesAsync(string? searchTerm,DateTime? startDate,DateTime? endDate,int page,int pageSize);
+        Task<decimal> GetTotalPaymentAmountAsync(string? searchTerm, DateTime? startDate, DateTime? endDate);
     }
 }

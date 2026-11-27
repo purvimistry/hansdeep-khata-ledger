@@ -22,16 +22,18 @@
                 {
                     <tr>
                         <td>
-                            <div class="customer-name">
-                                @entry.Customer.FullName
+                            <div class="customer-location">
+                                <div class="customer-name">
+                                    @entry.Customer.FullName
+                                </div>
+                                <small>
+                                    @entry.Customer.Village?.Name
+                                    @if (entry.Customer.Area != null)
+                                    {
+                                        <text>, @entry.Customer.Area.Name</text>
+                                    }
+                                </small>
                             </div>
-                            <small>
-                                @entry.Customer.Village?.Name
-                                @if (entry.Customer.Area != null)
-                                {
-                                    <text>, @entry.Customer.Area.Name</text>
-                                }
-                            </small>
                         </td>
                         <td>
                             @(entry.Customer.MobileNumber ?? "—")

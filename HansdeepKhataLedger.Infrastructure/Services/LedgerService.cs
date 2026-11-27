@@ -38,5 +38,13 @@ namespace HansdeepKhataLedger.Infrastructure.Services
         {
             return await _ledgerRepository.GetTotalCreditAmountAsync(searchTerm, startDate, endDate);
         }
+        public async Task<PagedResult<LedgerEntry>> GetPaymentEntriesAsync(string? searchTerm,DateTime? startDate,DateTime? endDate,int page,int pageSize)
+        {
+            return await _ledgerRepository.GetPaymentEntriesAsync(searchTerm, startDate, endDate, page, pageSize);
+        }
+        public async Task<decimal> GetTotalPaymentAmountAsync(string? searchTerm,DateTime? startDate,DateTime? endDate)
+        {
+            return await _ledgerRepository.GetTotalPaymentAmountAsync(searchTerm, startDate, endDate);
+        }
     }
 }

@@ -1,0 +1,88 @@
+﻿@model HansdeepKhataLedger.Web.Models.PaymentEntry.PaymentEntryIndexViewModel
+
+<div class="table-card">
+
+    <div class="table-scroll-hint">
+        Scroll horizontally to view all columns
+    </div>
+
+    <table class="customer-table credit-table">
+        <thead>
+            <tr>
+                <th>Customer</th>
+                <th>Contact</th>
+                <th>Payment Amount</th>
+                <th>Entry Date</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @if (Model.PaymentEntries.Any())
+            {
+                foreach (var entry in Model.PaymentEntries)
+                {
+                    <tr>
+                        <td>
+                            <div class="customer-location">
+                                <span class="customer-name">
+                                    @entry.Customer.FullName
+                                </span>
+
+                                <small>
+                                    @entry.Customer.Village?.Name
+
+                                    @if (entry.Customer.Area != null)
+                                    {
+                                        <text>, @entry.Customer.Area.Name</text>
+                                    }
+                                </small>
+                             </div>
+                        </td>
+
+                        <td>
+                            @(entry.Customer.MobileNumber ?? "—")
+                        </td>
+
+                        <td>
+                            <span class="badge-success">
+                                ₹ @entry.Amount.ToString("N2")
+                            </span>
+                        </td>
+
+                        <td>
+                            @entry.EntryDate.ToString("dd MMM yyyy")
+                        </td>
+
+                        <td>
+                            @(string.IsNullOrWhiteSpace(entry.Description)
+                                                ? "—"
+                                                : entry.Description)
+                        </td>
+
+                        <td>
+                            <div class="action-links">
+                                <a asp-controller="Ledger"
+                                   asp-action="Index"
+                                   asp-route-customerId="@entry.CustomerId">
+                                    Open Ledger
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6">
+                        <div class="empty-state">
+                            No payment entries found.
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

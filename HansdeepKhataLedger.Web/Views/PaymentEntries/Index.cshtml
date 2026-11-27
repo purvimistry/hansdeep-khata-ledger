@@ -1,0 +1,47 @@
+﻿@model HansdeepKhataLedger.Web.Models.PaymentEntry.PaymentEntryIndexViewModel
+
+@{
+    ViewData["Title"] = "Payment Entries";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/customer.css" asp-append-version="true" />
+}
+
+<div class="customer-page">
+
+    <div class="page-header">
+        <div>
+            <h2 class="page-title">Payment Entries</h2>
+            <p class="page-subtitle">
+                View and manage payment transactions across all customers.
+            </p>
+        </div>
+
+        <a asp-action="Create" class="primary-btn">
+            + Add Payment
+        </a>
+    </div>
+
+    @await Html.PartialAsync("_PaymentEntryFilters", Model)
+
+    <div class="filter-card credit-summary">
+        <div>
+            <p class="page-subtitle">Total Payment Amount</p>
+
+            <h2 class="pending-amount">
+                ₹ @Model.TotalPaymentAmount.ToString("N2")
+            </h2>
+
+            <small>
+                Across @Model.TotalRecords payment entries matching your filters
+            </small>
+        </div>
+    </div>
+
+    @await Html.PartialAsync("_PaymentEntryTable", Model)
+
+    @await Html.PartialAsync("_PaymentEntryPagination", Model)
+
+</div>

@@ -181,6 +181,70 @@ namespace HansdeepKhataLedger.Infrastructure.Repositories
 
             return query;
         }
+        public async Task<PagedResult<LedgerEntry>> GetPaymentEntriesAsync(string? searchTerm,DateTime? startDate,DateTime? endDate,int page,int pageSize)
+        {
+            var query = GetPaymentEntriesQuery(searchTerm, startDate, endDate);
 
+            var totalRecords = await query.CountAsync();
+
+            var items = await query
+                .OrderByDescending(l => l.EntryDate)
+                .ThenByDescending(l => l.Id)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return new PagedResult<LedgerEntry>
+            {
+                Items = items,
+                CurrentPage = page,
+                PageSize = pageSize,
+                TotalRecords = totalRecords
+            };
+        }
+        public async Task<decimal> GetTotalPaymentAmountAsync(string? searchTerm, DateTime? startDate,DateTime? endDate)
+        {
+            return await GetPaymentEntriesQuery(
+                    searchTerm, startDate, endDate)
+                .SumAsync(l => (decimal?)l.Amount) ?? 0m;
+        }
+        private IQueryable<LedgerEntry> GetPaymentEntriesQuery(string? searchTerm,DateTime? startDate,DateTime? endDate)
+        {
+            var query = _dbContext.LedgerEntries
+                .Include(l => l.Customer)
+                    .ThenInclude(c => c.Village)
+                .Include(l => l.Customer)
+                    .ThenInclude(c => c.Area)
+                .Where(l => l.EntryType == LedgerEntryType.Payment);
+
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                searchTerm = searchTerm.Trim();
+
+                query = query.Where(l =>
+                    l.Customer.FullName.Contains(searchTerm) ||
+                    l.Customer.Village.Name.Contains(searchTerm) ||
+                    (l.Customer.Area != null &&
+                     l.Customer.Area.Name.Contains(searchTerm)) ||
+                    (l.Customer.MobileNumber != null &&
+                     l.Customer.MobileNumber.Contains(searchTerm)));
+            }
+
+            if (startDate.HasValue)
+            {
+                query = query.Where(l =>
+                    l.EntryDate >= startDate.Value.Date);
+            }
+
+            if (endDate.HasValue)
+            {
+                var exclusiveEndDate = endDate.Value.Date.AddDays(1);
+
+                query = query.Where(l =>
+                    l.EntryDate < exclusiveEndDate);
+            }
+
+            return query;
+        }
     }
 }
